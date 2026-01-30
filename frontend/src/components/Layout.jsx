@@ -35,21 +35,21 @@ export const Navbar = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        className="fixed top-0 left-0 right-0 z-50"
+        className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm"
       >
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 py-6">
           <div className="flex items-center justify-between">
             <Link to="/" className="relative z-50" data-testid="logo-link">
               <motion.span 
-                className="text-sm font-medium text-white uppercase tracking-[0.2em]"
-                whileHover={{ opacity: 0.7 }}
+                className="text-sm font-medium text-black uppercase tracking-[0.2em]"
+                whileHover={{ opacity: 0.6 }}
               >
                 Clarity
               </motion.span>
             </Link>
 
             <div className="hidden md:block">
-              <span className="text-xs text-white/40 font-mono">{time} LOCAL</span>
+              <span className="text-xs text-black/40 font-mono">{time} LOCAL</span>
             </div>
 
             <div className="hidden md:flex items-center gap-8">
@@ -60,8 +60,8 @@ export const Navbar = () => {
                   data-testid={`nav-${link.name.toLowerCase()}`}
                   className={`text-sm transition-opacity ${
                     location.pathname === link.path 
-                      ? 'text-white' 
-                      : 'text-white/60 hover:text-white'
+                      ? 'text-black' 
+                      : 'text-black/50 hover:text-black'
                   }`}
                 >
                   {link.name}
@@ -71,7 +71,7 @@ export const Navbar = () => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 data-testid="nav-book-call-btn"
-                className="text-sm bg-green-500 text-white px-6 py-3 font-medium hover:bg-green-400 transition-colors"
+                className="text-sm bg-green-500 text-white px-6 py-3 font-medium hover:bg-green-600 transition-colors"
               >
                 Book a Call
               </motion.button>
@@ -79,7 +79,7 @@ export const Navbar = () => {
 
             <button
               data-testid="mobile-menu-btn"
-              className="md:hidden relative z-50 text-white"
+              className="md:hidden relative z-50 text-black"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -95,7 +95,7 @@ export const Navbar = () => {
             animate={{ clipPath: 'circle(150% at calc(100% - 40px) 40px)' }}
             exit={{ clipPath: 'circle(0% at calc(100% - 40px) 40px)' }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 bg-[#0f2f1c] flex items-center justify-center md:hidden"
+            className="fixed inset-0 z-40 bg-white flex items-center justify-center md:hidden"
           >
             <div className="flex flex-col items-center gap-8">
               {navLinks.map((link, i) => (
@@ -109,7 +109,7 @@ export const Navbar = () => {
                     to={link.path}
                     data-testid={`mobile-nav-${link.name.toLowerCase()}`}
                     onClick={() => setIsOpen(false)}
-                    className="text-5xl font-medium text-white hover:opacity-70 transition-opacity"
+                    className="text-5xl font-medium text-black hover:text-green-500 transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -146,9 +146,9 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#0a1f12] border-t border-green-900/50">
+    <footer className="bg-black text-white">
       <div className="max-w-[1800px] mx-auto px-6 md:px-12">
-        <div className="py-24 md:py-32 border-b border-green-900/30">
+        <div className="py-24 md:py-32 border-b border-white/10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
               <p className="text-sm text-green-400 uppercase tracking-[0.2em] mb-6">Newsletter</p>
@@ -164,7 +164,7 @@ export const Footer = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   data-testid="newsletter-email-input"
-                  className="flex-1 bg-transparent border-b border-green-900 rounded-none px-0 h-12 text-white placeholder:text-white/30 focus:border-green-500"
+                  className="flex-1 bg-transparent border-b border-white/20 rounded-none px-0 h-12 text-white placeholder:text-white/30 focus:border-green-500"
                 />
                 <button
                   type="submit"
@@ -226,7 +226,7 @@ export const Footer = () => {
 
 export const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-[#0f2f1c]">
+    <div className="min-h-screen bg-white">
       <Navbar />
       <main>{children}</main>
       <Footer />
