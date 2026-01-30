@@ -1,124 +1,119 @@
 {
-  "identity": {
+  "brand_identity": {
     "name": "Clarity Labs",
-    "tone": "Premium, Minimal, Calm, Confident, Founder-to-Founder",
-    "aesthetic": "High-end SaaS, White & Black, Sky Blue Accents, Clean Typography",
-    "target_audience": "SaaS founders, growth teams, product marketers"
+    "tagline": "Video production for SaaS & AI brands",
+    "tone": "Confident, Founder-to-Founder, Premium, Cinematic",
+    "aesthetic": "Dark Mode, High Contrast, Editorial, Asymmetric",
+    "core_values": ["Precision", "Storytelling", "Impact"]
   },
-  "typography": {
-    "font_family": {
-      "headings": "Syne, sans-serif",
-      "body": "DM Sans, sans-serif"
+  "design_system": {
+    "theme": "dark",
+    "colors": {
+      "background": "#020408",
+      "foreground": "#F8FAFC",
+      "card": "#09090B",
+      "card_foreground": "#F8FAFC",
+      "primary": "#FFFFFF",
+      "primary_foreground": "#000000",
+      "secondary": "#18181B",
+      "secondary_foreground": "#FAFAFA",
+      "accent": "#3B82F6",
+      "accent_glow": "rgba(59, 130, 246, 0.5)",
+      "border": "#27272A",
+      "muted": "#71717A"
     },
-    "google_fonts_url": "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=Syne:wght@400;600;700;800&display=swap",
-    "scale": {
-      "h1": "text-5xl md:text-7xl font-bold tracking-tight leading-[1.1]",
-      "h2": "text-4xl md:text-5xl font-semibold tracking-tight",
-      "h3": "text-2xl md:text-3xl font-semibold",
-      "body": "text-base md:text-lg leading-relaxed text-slate-600",
-      "small": "text-sm font-medium tracking-wide uppercase text-slate-400"
-    }
-  },
-  "colors": {
-    "palette": {
-      "background": "#FFFFFF",
-      "foreground": "#0F172A",
-      "primary": "#0F172A",
-      "primary_foreground": "#FFFFFF",
-      "secondary": "#F8FAFC",
-      "secondary_foreground": "#0F172A",
-      "accent": "#0EA5E9",
-      "accent_foreground": "#FFFFFF",
-      "muted": "#F1F5F9",
-      "muted_foreground": "#64748B",
-      "border": "#E2E8F0",
-      "input": "#E2E8F0",
-      "ring": "#0EA5E9"
-    },
-    "usage": {
-      "body_bg": "bg-white",
-      "text_main": "text-slate-900",
-      "text_muted": "text-slate-500",
-      "cta_primary": "bg-slate-900 text-white hover:bg-slate-800",
-      "cta_accent": "bg-sky-500 text-white hover:bg-sky-600",
-      "card_bg": "bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300"
-    }
-  },
-  "layout": {
-    "container": "max-w-7xl mx-auto px-6 md:px-12",
-    "spacing": {
-      "section_py": "py-20 md:py-32",
-      "element_gap": "gap-6 md:gap-12"
-    },
-    "grid_strategies": {
-      "bento": "grid grid-cols-1 md:grid-cols-3 gap-6",
-      "feature_list": "grid grid-cols-1 md:grid-cols-2 gap-12 items-center",
-      "pricing": "grid grid-cols-1 md:grid-cols-3 gap-8"
-    }
-  },
-  "components": {
-    "buttons": {
-      "base": "inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 h-12 px-8",
-      "variants": {
-        "default": "bg-slate-900 text-white hover:bg-slate-800 shadow-lg shadow-slate-900/20",
-        "outline": "border-2 border-slate-200 bg-transparent hover:bg-slate-50 text-slate-900",
-        "ghost": "hover:bg-slate-100 hover:text-slate-900",
-        "link": "text-slate-900 underline-offset-4 hover:underline"
+    "typography": {
+      "font_heading": "Syne, sans-serif",
+      "font_body": "DM Sans, sans-serif",
+      "scale": {
+        "h1": "text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9]",
+        "h2": "text-4xl md:text-6xl font-bold tracking-tight",
+        "h3": "text-2xl md:text-3xl font-semibold",
+        "body_lg": "text-lg md:text-xl font-normal leading-relaxed",
+        "body": "text-base font-normal leading-relaxed text-muted-foreground",
+        "label": "text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground"
       }
     },
-    "cards": {
-      "style": "rounded-2xl border border-slate-100 bg-white p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300",
-      "highlight": "border-sky-200 bg-sky-50/30 relative overflow-hidden"
+    "spacing": {
+      "container_padding": "px-6 md:px-12 lg:px-24",
+      "section_gap": "py-24 md:py-32",
+      "element_gap": "gap-6 md:gap-12"
     },
-    "inputs": {
-      "style": "flex h-12 w-full rounded-lg border border-slate-200 bg-transparent px-4 py-2 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 disabled:cursor-not-allowed disabled:opacity-50"
+    "effects": {
+      "glass": "bg-black/40 backdrop-blur-xl border border-white/10",
+      "glow": "shadow-[0_0_40px_-10px_rgba(59,130,246,0.3)]",
+      "card_hover": "hover:border-white/20 hover:bg-white/5 transition-all duration-300"
+    },
+    "radius": "rounded-none md:rounded-sm"
+  },
+  "layout_rules": {
+    "grid_system": "Bento Grid (Asymmetric)",
+    "alignment": "Left aligned by default. Center only for specific editorial moments.",
+    "container_width": "max-w-[1600px] mx-auto",
+    "z_index": {
+      "nav": 50,
+      "modal": 100,
+      "overlay": 40,
+      "content": 10,
+      "background": 0
     }
   },
   "assets": {
     "images": {
-      "hero_bg": "https://images.unsplash.com/photo-1758315417320-a8bbed64d29b?crop=entropy&cs=srgb&fm=jpg&q=85",
-      "about_team": "https://images.unsplash.com/photo-1575299833801-85ce40813bac?crop=entropy&cs=srgb&fm=jpg&q=85",
-      "testimonial_1": "https://images.unsplash.com/photo-1589220286904-3dcef62c68ee?crop=entropy&cs=srgb&fm=jpg&q=85",
-      "testimonial_2": "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg",
-      "testimonial_3": "https://images.unsplash.com/photo-1657771072153-878f8b0ce74a?crop=entropy&cs=srgb&fm=jpg&q=85",
-      "video_placeholder": "https://images.unsplash.com/photo-1637095937545-7d8c1edf4d2b?crop=entropy&cs=srgb&fm=jpg&q=85"
+      "hero_bg": "https://images.unsplash.com/photo-1705107958696-a7f73c749ab3?q=80&w=2000&auto=format&fit=crop",
+      "process_filming": "https://images.unsplash.com/photo-1586268659832-13b6a3be3b0d?q=80&w=1200&auto=format&fit=crop",
+      "team_meeting": "https://images.unsplash.com/photo-1700241956172-1045342673ed?q=80&w=1200&auto=format&fit=crop",
+      "abstract_texture": "https://images.unsplash.com/photo-1631367771736-8372e1446ed8?q=80&w=1200&auto=format&fit=crop"
     },
-    "icons": "Use lucide-react for all icons. Prefer thin strokes (stroke-width={1.5}) for elegance."
+    "icons": "Use Lucide React icons (already installed). Use thin stroke (1.5px) for elegance."
   },
-  "motion": {
-    "library": "framer-motion",
-    "variants": {
-      "fadeInUp": {
-        "initial": { "opacity": 0, "y": 20 },
-        "whileInView": { "opacity": 1, "y": 0 },
-        "viewport": { "once": true },
-        "transition": { "duration": 0.5, "ease": "easeOut" }
-      },
-      "staggerContainer": {
-        "initial": {},
-        "whileInView": { "transition": { "staggerChildren": 0.1 } }
-      }
+  "components_map": {
+    "Button": {
+      "primary": "bg-white text-black hover:bg-gray-200 rounded-full px-8 py-6 text-lg font-medium transition-transform hover:scale-105 active:scale-95",
+      "secondary": "bg-transparent border border-white/20 text-white hover:bg-white/10 rounded-full px-8 py-6 text-lg transition-colors",
+      "ghost": "text-white/70 hover:text-white hover:bg-white/5 rounded-lg px-4 py-2"
+    },
+    "Card": {
+      "base": "bg-[#0A0A0A] border border-white/10 p-8 md:p-12 flex flex-col gap-6 relative overflow-hidden group",
+      "hover_effect": "group-hover:border-white/20 transition-colors duration-500"
+    },
+    "Input": "bg-white/5 border-white/10 focus:border-white/30 text-white placeholder:text-white/30 h-14 px-6 rounded-none md:rounded-sm"
+  },
+  "sections_guidelines": {
+    "Navbar": {
+      "style": "Fixed, glassmorphism, high z-index. Logo left, Links center (hidden mobile), CTA right.",
+      "mobile": "Hamburger menu opens full screen overlay with massive typography links."
+    },
+    "Hero": {
+      "layout": "Split screen or Full background with overlay. Typography must be MASSIVE (text-7xl+).",
+      "content": "Headline: 'We turn SaaS into Cinema'. Subhead: 'Premium video production for brands that refuse to be boring.'",
+      "visual": "Use 'hero_bg' image with a gradient overlay (black to transparent) to ensure text readability."
+    },
+    "Services": {
+      "layout": "Bento Grid. Mix of 1x1, 2x1, and 2x2 cells.",
+      "items": [
+        {"title": "Brand Films", "desc": "Cinematic storytelling that builds legacy.", "size": "large"},
+        {"title": "Product Demos", "desc": "High-fidelity walkthroughs.", "size": "small"},
+        {"title": "Social Shorts", "desc": "Viral-ready vertical content.", "size": "tall"},
+        {"title": "Customer Stories", "desc": "Documentary style testimonials.", "size": "small"}
+      ]
+    },
+    "Process": {
+      "style": "Sticky scroll or Horizontal scroll. Steps should feel like chapters in a movie.",
+      "steps": ["Scripting", "Production", "Post-Magic", "Launch"]
+    },
+    "Pricing": {
+      "style": "Clean, comparison table or 3-card layout. Highlight 'Agency Partner' tier.",
+      "cards": "Dark cards with white borders. 'Most Popular' gets a subtle glow."
     }
   },
   "universal_guidelines": [
-    "Do not use dark mode. Force light mode in tailwind config.",
-    "Use 'Syne' font for all Headings (h1-h3) and 'DM Sans' for body.",
-    "Ensure all interactive elements have data-testid attributes.",
-    "Use generous padding (py-24, py-32) between sections.",
-    "Avoid generic gradients. Use solid colors or very subtle mesh gradients if absolutely necessary.",
-    "Buttons should be pill-shaped (rounded-full).",
-    "Cards should have rounded-2xl or rounded-3xl corners.",
-    "Use 'sonner' for toast notifications.",
-    "For the Client Logo Strip: Since specific logos are hard to source, use a Marquee component with the COMPANY NAMES typed out in the 'Syne' font, bold and uppercase, in a light gray color (text-slate-300). This looks cleaner and more premium than mismatched logo SVGs."
+    "DO NOT use gradients for text.",
+    "DO NOT use standard 'Inter' font. Use 'Syne' for all headings.",
+    "Ensure all images have a subtle 'noise' overlay or filter to match the dark aesthetic.",
+    "Use 'gap-24' or 'gap-32' between sections. Do not crowd the design.",
+    "All interactive elements must have a hover state.",
+    "Use 'framer-motion' for scroll reveals (fade-up, stagger-children)."
   ],
-  "instructions_to_main_agent": [
-    "1. Install dependencies: `npm install framer-motion lucide-react clsx tailwind-merge sonner react-fast-marquee`",
-    "2. Update `tailwind.config.js` to include the custom colors and fonts defined above.",
-    "3. Add the Google Fonts link to `index.html` or import in `index.css`.",
-    "4. Create a `Layout` component that wraps pages and handles the Navbar and Footer.",
-    "5. Implement the Home page with the sections defined in the problem statement.",
-    "6. Implement the Pricing page with the 3-tier cards.",
-    "7. Ensure the 'Book a Call' CTA is prominent in the Navbar.",
-    "8. Use the provided image URLs. If an image fails to load, fallback to a clean gray placeholder."
-  ]
+  "instructions_to_main_agent": "You are building a premium agency site. Ignore standard templates. Be bold with size and spacing. Use the provided image URLs. Implement the 'Syne' font for all headings immediately. Start by setting up the global dark theme in index.css."
 }
