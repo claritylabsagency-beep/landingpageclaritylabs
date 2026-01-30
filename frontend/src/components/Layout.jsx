@@ -146,13 +146,13 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-gray-50 border-t border-black/10">
       <div className="max-w-[1800px] mx-auto px-6 md:px-12">
-        <div className="py-24 md:py-32 border-b border-white/10">
+        <div className="py-24 md:py-32 border-b border-black/10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
-              <p className="text-sm text-green-400 uppercase tracking-[0.2em] mb-6">Newsletter</p>
-              <h3 className="text-3xl md:text-4xl font-medium text-white mb-8">
+              <p className="text-sm text-green-600 uppercase tracking-[0.2em] mb-6">Newsletter</p>
+              <h3 className="text-3xl md:text-4xl font-medium text-black mb-8">
                 Weekly insights on
                 <br />
                 video that converts.
@@ -164,13 +164,13 @@ export const Footer = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   data-testid="newsletter-email-input"
-                  className="flex-1 bg-transparent border-b border-white/20 rounded-none px-0 h-12 text-white placeholder:text-white/30 focus:border-green-500"
+                  className="flex-1 bg-transparent border-b border-black/20 rounded-none px-0 h-12 text-black placeholder:text-black/30 focus:border-green-500"
                 />
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   data-testid="newsletter-submit-btn"
-                  className="text-sm uppercase tracking-[0.1em] text-white hover:text-green-400 transition-colors disabled:opacity-30"
+                  className="text-sm uppercase tracking-[0.1em] text-black hover:text-green-600 transition-colors disabled:opacity-30"
                 >
                   {isSubmitting ? '...' : 'Subscribe →'}
                 </button>
@@ -179,13 +179,13 @@ export const Footer = () => {
 
             <div className="grid grid-cols-2 gap-12 lg:justify-end">
               <div>
-                <p className="text-sm text-green-400 uppercase tracking-[0.2em] mb-6">Pages</p>
+                <p className="text-sm text-green-600 uppercase tracking-[0.2em] mb-6">Pages</p>
                 <ul className="space-y-4">
                   {['Home', 'Pricing', 'About'].map((link) => (
                     <li key={link}>
                       <Link 
                         to={link === 'Home' ? '/' : `/${link.toLowerCase()}`}
-                        className="text-white/60 hover:text-white transition-colors"
+                        className="text-black/60 hover:text-black transition-colors"
                         data-testid={`footer-${link.toLowerCase()}-link`}
                       >
                         {link}
@@ -195,13 +195,13 @@ export const Footer = () => {
                 </ul>
               </div>
               <div>
-                <p className="text-sm text-green-400 uppercase tracking-[0.2em] mb-6">Social</p>
+                <p className="text-sm text-green-600 uppercase tracking-[0.2em] mb-6">Social</p>
                 <ul className="space-y-4">
                   {['Twitter', 'LinkedIn', 'YouTube'].map((social) => (
                     <li key={social}>
                       <a 
                         href="#"
-                        className="text-white/60 hover:text-white transition-colors inline-flex items-center gap-2"
+                        className="text-black/60 hover:text-black transition-colors inline-flex items-center gap-2"
                         data-testid={`social-${social.toLowerCase()}`}
                       >
                         {social}
@@ -216,8 +216,8 @@ export const Footer = () => {
         </div>
 
         <div className="py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-white/30">© {new Date().getFullYear()} Clarity Labs</p>
-          <p className="text-xs text-white/30">Premium Video for SaaS</p>
+          <p className="text-xs text-black/40">© {new Date().getFullYear()} Clarity Labs</p>
+          <p className="text-xs text-black/40">Premium Video for SaaS</p>
         </div>
       </div>
     </footer>
