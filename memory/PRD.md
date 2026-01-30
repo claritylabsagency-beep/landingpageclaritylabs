@@ -1,7 +1,7 @@
 # Clarity Labs - Product Requirements Document
 
 ## Original Problem Statement
-Build a modern, minimal, high-conversion website for "Clarity Labs" - a premium video production agency for SaaS & AI brands. The website should feature a clean SaaS aesthetic with white background, black text, and sky-blue accents.
+Build a modern, minimal, high-conversion website for "Clarity Labs" - a premium video production agency for SaaS & AI brands. Ultra-modern premium design inspired by Linear/Stripe/Vercel.
 
 ## User Personas
 1. **SaaS Founders** - Need clear product explainer videos for homepage and launches
@@ -12,9 +12,9 @@ Build a modern, minimal, high-conversion website for "Clarity Labs" - a premium 
 - 3 pages: Home, Pricing, About
 - Newsletter subscription (store in database)
 - CTAs for video audit and consultation (placeholder for Calendly)
-- Premium, minimal design with Syne + DM Sans fonts
+- Premium editorial design
 - Mobile-responsive layout
-- Smooth animations with Framer Motion
+- Smooth Framer Motion animations
 
 ---
 
@@ -22,29 +22,31 @@ Build a modern, minimal, high-conversion website for "Clarity Labs" - a premium 
 
 ### Phase 1 - MVP (January 30, 2025)
 
+**Design System:**
+- ✅ Premium light theme with editorial feel
+- ✅ Playfair Display (serif headings) + Manrope (body) typography
+- ✅ Floating glass navbar with backdrop blur
+- ✅ Aurora gradient backgrounds
+- ✅ Bento grid layouts for services
+- ✅ Rounded 3xl cards with hover lift effects
+- ✅ Color-coded service icons (blue, amber, purple, emerald)
+
 **Pages:**
-- ✅ Homepage with Hero, Client Logos Marquee, Services (6 cards), Video Styles (8 cards), Testimonials (3), Process (5 steps), Final CTA
-- ✅ Pricing page with 4 pricing tiers, included features, FAQ accordion (5 questions)
-- ✅ About page with values section and story
+- ✅ Homepage: Hero with video card + floating stats, client logos, bento services, process steps, testimonials, dark CTA
+- ✅ Pricing: 3 tiers (Starter $1,499 / Growth $2,999 highlighted / Agency Custom), FAQ accordion
+- ✅ About: Editorial hero, values cards, story section with image
 
 **Backend:**
 - ✅ Newsletter subscription API (`POST /api/newsletter/subscribe`)
 - ✅ Contact request API (`POST /api/contact`)
 - ✅ Health check endpoint (`GET /api/health`)
 
-**Frontend:**
-- ✅ Responsive Navbar with navigation and "Book a Call" CTA
-- ✅ Footer with newsletter signup form
-- ✅ Framer Motion animations
-- ✅ React Fast Marquee for client logos
+**Frontend Features:**
+- ✅ Floating glass navbar
+- ✅ Full-screen mobile menu
+- ✅ Newsletter signup with toast notifications
+- ✅ Framer Motion scroll animations
 - ✅ Shadcn UI Accordion for FAQ
-- ✅ Sonner toast notifications
-
-**Design:**
-- ✅ White background, slate-900 text, sky-500 accent
-- ✅ Syne font for headings, DM Sans for body
-- ✅ Pill-shaped buttons, rounded-2xl cards
-- ✅ Subtle shadows and hover effects
 
 ---
 
@@ -56,18 +58,15 @@ Build a modern, minimal, high-conversion website for "Clarity Labs" - a premium 
 
 ### P1 - Nice to Have
 - [ ] Contact form modal for video audit requests
-- [ ] Case studies/portfolio section (if needed later)
-- [ ] Blog section for SEO
+- [ ] Video showreel integration
 
 ### P2 - Future Enhancements
-- [ ] Calendly embedded booking widget
 - [ ] CRM integration (HubSpot, etc.)
 - [ ] Analytics integration (GA4, Mixpanel)
-- [ ] A/B testing for landing page
 
 ---
 
 ## Next Tasks
-1. Integrate Calendly link when provided by user
-2. Add actual client logos when available
-3. Consider adding a contact form modal for immediate lead capture
+1. Integrate Calendly link when provided
+2. Add actual client logos
+3. Consider video showreel modal for "Watch Showreel" button
