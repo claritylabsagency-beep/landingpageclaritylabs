@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { Check, ArrowRight, HelpCircle } from 'lucide-react';
-import { Button } from '../components/ui/button';
+import { Check, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Layout } from '../components/Layout';
 import {
   Accordion,
@@ -9,30 +8,23 @@ import {
   AccordionTrigger,
 } from '../components/ui/accordion';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
+const fadeUp = {
+  initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { duration: 0.5, ease: 'easeOut' }
-};
-
-const staggerContainer = {
-  initial: {},
-  whileInView: { transition: { staggerChildren: 0.1 } },
-  viewport: { once: true }
+  transition: { duration: 0.6 }
 };
 
 // Pricing Plans
 const pricingPlans = [
   {
-    name: 'Starter Explainer Pack',
+    name: 'Starter',
     price: '$1,499',
-    priceNote: 'from',
-    description: 'Best for homepage clarity and first impressions.',
+    desc: 'Homepage clarity & first impressions.',
     features: [
-      '60–90s product-led explainer',
+      '60–90s product explainer',
       'Script cleanup & structure',
-      'Screen recording + basic motion',
+      'Screen recording + motion',
       'Captions & sound design',
       '2 revision rounds'
     ],
@@ -40,29 +32,13 @@ const pricingPlans = [
     highlighted: false
   },
   {
-    name: 'Feature Launch Pack',
-    price: '$1,999',
-    priceNote: 'from',
-    description: 'Best for feature updates and adoption.',
-    features: [
-      '30–60s feature launch video',
-      '2 hook variations',
-      'UI callouts & motion polish',
-      'Social exports (3 formats)',
-      '2 revision rounds'
-    ],
-    turnaround: '5–7 days',
-    highlighted: false
-  },
-  {
-    name: 'Growth Video Pack',
+    name: 'Growth',
     price: '$2,999',
-    priceNote: 'from',
-    description: 'Best for distribution and pipeline growth.',
+    desc: 'Distribution & pipeline growth.',
     features: [
       '1 flagship video (45–90s)',
       '8–12 short clips (10–20s)',
-      'Script & storyboard included',
+      'Script & storyboard',
       'Multi-platform exports',
       'Caption templates',
       '2 revision rounds'
@@ -72,10 +48,9 @@ const pricingPlans = [
     badge: 'Most Popular'
   },
   {
-    name: 'Monthly Contract',
+    name: 'Agency',
     price: 'Custom',
-    priceNote: '',
-    description: 'For teams shipping consistently.',
+    desc: 'For teams shipping consistently.',
     features: [
       'Monthly content planning',
       '2–4 core videos',
@@ -85,108 +60,98 @@ const pricingPlans = [
       'Ongoing optimization'
     ],
     turnaround: 'Ongoing',
-    highlighted: false,
-    isCustom: true
+    highlighted: false
   }
-];
-
-// Everything You Need Features
-const includedFeatures = [
-  'Messaging & scripting architecture',
-  'Storyboarding & system alignment',
-  'Product-led motion & editing',
-  'Voiceover (AI or human)',
-  'Music & sound design',
-  'Clear revision boundaries'
 ];
 
 // FAQ Data
 const faqData = [
   {
     question: 'What does your process look like?',
-    answer: 'A clear 5-step workflow from discovery to delivery. We start with alignment on your audience and goals, then move through scripting, storyboarding, production, and final delivery—all with async communication to minimize your time investment.'
+    answer: 'A clear 4-step workflow from discovery to launch. We start with alignment on your audience and goals, then move through scripting, production, and delivery—all async to minimize your time investment.'
   },
   {
     question: 'How involved do we need to be?',
-    answer: 'One kickoff and one review—everything else is async. We\'ve designed our process to require minimal time from you while still ensuring the final product perfectly captures your product and message.'
-  },
-  {
-    question: 'Do you support monthly work?',
-    answer: 'Yes. Monthly is ideal for consistent distribution. Teams that ship regularly benefit from a dedicated motion system, priority turnaround, and ongoing optimization of your video content.'
+    answer: 'One kickoff call and one review—everything else is async. We\'ve designed our process to require minimal time from you while ensuring the final product nails your message.'
   },
   {
     question: 'Do you guarantee views or virality?',
-    answer: 'No. We focus on clarity and conversion—not vanity metrics. Our job is to make your product instantly understandable and compelling. Distribution strategy and viral success depend on many factors beyond video quality.'
+    answer: 'No. We focus on clarity and conversion—not vanity metrics. Our job is to make your product instantly understandable and compelling. Distribution depends on many factors beyond video quality.'
   },
   {
     question: 'What if we\'re not sure what we need?',
-    answer: 'We\'ll recommend the best format based on your funnel. Start with a free video audit—we\'ll review your current content and suggest the most impactful videos for your stage and goals.'
+    answer: 'Start with a free video audit. We\'ll review your current content and recommend the most impactful videos for your stage and goals.'
+  },
+  {
+    question: 'Do you support monthly retainers?',
+    answer: 'Yes. Monthly is ideal for teams shipping consistently. You get a dedicated motion system, priority turnaround, and ongoing optimization of your video content.'
   }
 ];
 
-// Pricing Card Component
+// Pricing Card
 const PricingCard = ({ plan, index }) => (
   <motion.div
-    variants={fadeInUp}
-    className={`relative rounded-2xl border p-8 transition-all duration-300 ${
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: index * 0.1 }}
+    className={`relative flex flex-col p-8 md:p-10 border transition-all duration-500 ${
       plan.highlighted
-        ? 'border-sky-200 bg-sky-50/30 shadow-lg scale-[1.02]'
-        : 'border-slate-100 bg-white shadow-sm hover:shadow-lg'
+        ? 'bg-blue-500/5 border-blue-500/30 glow'
+        : 'bg-[#0A0A0A] border-white/10 hover:border-white/20'
     }`}
     data-testid={`pricing-card-${index}`}
   >
     {plan.badge && (
-      <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-sky-500 text-white text-xs font-semibold px-4 py-1 rounded-full">
+      <span className="absolute -top-3 left-8 bg-blue-500 text-white text-xs font-mono uppercase tracking-wider px-4 py-1">
         {plan.badge}
       </span>
     )}
     
-    <div className="mb-6">
-      <h3 className="font-heading text-xl font-semibold text-slate-900">
+    <div className="mb-8">
+      <h3 className="font-heading text-2xl font-bold text-white mb-2">
         {plan.name}
       </h3>
-      <p className="text-slate-500 text-sm mt-1">
-        {plan.description}
+      <p className="text-white/40 text-sm">
+        {plan.desc}
       </p>
     </div>
     
-    <div className="mb-6">
-      {plan.priceNote && (
-        <span className="text-sm text-slate-400">{plan.priceNote} </span>
-      )}
-      <span className="font-heading text-4xl font-bold text-slate-900">
+    <div className="mb-8">
+      <span className="font-heading text-5xl font-bold text-white">
         {plan.price}
       </span>
+      {plan.price !== 'Custom' && (
+        <span className="text-white/30 ml-2">starting</span>
+      )}
     </div>
     
-    <ul className="space-y-3 mb-8">
+    <ul className="space-y-4 mb-10 flex-1">
       {plan.features.map((feature, fIndex) => (
-        <li key={fIndex} className="flex items-start gap-3 text-sm text-slate-600">
-          <Check className={`h-5 w-5 flex-shrink-0 mt-0.5 ${plan.highlighted ? 'text-sky-500' : 'text-slate-400'}`} />
-          {feature}
+        <li key={fIndex} className="flex items-start gap-3 text-white/60">
+          <Check className={`w-5 h-5 mt-0.5 flex-shrink-0 ${plan.highlighted ? 'text-blue-400' : 'text-white/30'}`} />
+          <span className="text-sm">{feature}</span>
         </li>
       ))}
     </ul>
     
-    <div className="mb-6 pt-4 border-t border-slate-100">
-      <p className="text-sm text-slate-500">
-        <span className="font-medium">Turnaround:</span> {plan.turnaround}
+    <div className="mb-8 pt-6 border-t border-white/10">
+      <p className="text-xs font-mono uppercase tracking-wider text-white/30">
+        Turnaround: {plan.turnaround}
       </p>
     </div>
     
-    <Button
+    <button
       data-testid={`pricing-cta-${index}`}
-      className={`w-full rounded-full h-12 font-medium ${
+      className={`group w-full flex items-center justify-center gap-2 py-4 font-medium transition-all ${
         plan.highlighted
-          ? 'bg-sky-500 text-white hover:bg-sky-600 shadow-lg shadow-sky-500/30'
-          : plan.isCustom
-          ? 'bg-slate-900 text-white hover:bg-slate-800'
-          : 'bg-slate-100 text-slate-900 hover:bg-slate-200'
+          ? 'bg-blue-500 text-white hover:bg-blue-400'
+          : 'bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:border-white/20'
       }`}
     >
-      {plan.isCustom ? 'Contact Us' : 'Get Started'}
-      <ArrowRight className="ml-2 h-4 w-4" />
-    </Button>
+      {plan.price === 'Custom' ? 'Contact Us' : 'Get Started'}
+      <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+    </button>
   </motion.div>
 );
 
@@ -194,18 +159,24 @@ const PricingCard = ({ plan, index }) => (
 const Pricing = () => {
   return (
     <Layout>
-      {/* Header */}
-      <section className="pt-16 pb-12 md:pt-24 md:pb-16">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
+      {/* Hero */}
+      <section className="pt-32 md:pt-40 pb-20">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl"
           >
-            <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight">
-              Simple, Transparent Pricing
+            <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400 mb-4 block">
+              Pricing
+            </span>
+            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[0.95]">
+              Simple pricing.
+              <br />
+              <span className="text-white/30">No surprises.</span>
             </h1>
-            <p className="mt-6 text-lg text-slate-500 max-w-2xl mx-auto">
+            <p className="mt-8 text-white/50 text-lg md:text-xl max-w-xl">
               Choose a package based on your goal. Move to monthly when you want consistent output.
             </p>
           </motion.div>
@@ -213,70 +184,72 @@ const Pricing = () => {
       </section>
 
       {/* Pricing Cards */}
-      <section className="pb-20 md:pb-32">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="whileInView"
-            viewport={{ once: true }}
-          >
+      <section className="pb-24 md:pb-40">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {pricingPlans.map((plan, index) => (
               <PricingCard key={index} plan={plan} index={index} />
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Everything You Need */}
-      <section className="py-20 md:py-32 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <motion.div
-            className="text-center mb-12"
-            {...fadeInUp}
-          >
-            <h2 className="font-heading text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight">
-              Everything you need from ideas to impact
-            </h2>
-          </motion.div>
-          
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto"
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="whileInView"
-            viewport={{ once: true }}
-          >
-            {includedFeatures.map((feature, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                className="flex items-center gap-3 bg-white rounded-xl p-4 border border-slate-100"
-                data-testid={`included-feature-${index}`}
-              >
-                <div className="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center">
-                  <Check className="h-4 w-4 text-sky-500" />
+      {/* What's Included */}
+      <section className="py-24 md:py-32 border-t border-white/5">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <motion.div {...fadeUp}>
+              <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400 mb-4 block">
+                What's Included
+              </span>
+              <h2 className="font-heading text-3xl md:text-4xl font-bold text-white tracking-tight">
+                Everything from
+                <br />
+                ideas to impact.
+              </h2>
+            </motion.div>
+            
+            <motion.div 
+              className="grid grid-cols-2 gap-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              {[
+                'Messaging architecture',
+                'Scripting & storyboards',
+                'Motion design & editing',
+                'Voiceover (AI or human)',
+                'Music & sound design',
+                'Multi-platform exports'
+              ].map((item, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center gap-3"
+                  data-testid={`included-feature-${index}`}
+                >
+                  <div className="w-2 h-2 bg-blue-500" />
+                  <span className="text-white/60 text-sm">{item}</span>
                 </div>
-                <span className="text-slate-700 font-medium">{feature}</span>
-              </motion.div>
-            ))}
-          </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-20 md:py-32 bg-white">
-        <div className="max-w-3xl mx-auto px-6 md:px-12">
-          <motion.div
-            className="text-center mb-12"
-            {...fadeInUp}
+      {/* FAQ */}
+      <section className="py-24 md:py-32 bg-[#0A0A0A]">
+        <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-24">
+          <motion.div 
+            className="mb-16"
+            {...fadeUp}
           >
-            <div className="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center mx-auto mb-4">
-              <HelpCircle className="h-6 w-6 text-sky-500" />
-            </div>
-            <h2 className="font-heading text-3xl md:text-4xl font-semibold text-slate-900 tracking-tight">
-              Frequently Asked Questions
+            <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400 mb-4 block">
+              FAQ
+            </span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-white tracking-tight">
+              Questions? Answers.
             </h2>
           </motion.div>
           
@@ -284,20 +257,19 @@ const Pricing = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
           >
             <Accordion type="single" collapsible className="w-full" data-testid="faq-accordion">
               {faqData.map((item, index) => (
                 <AccordionItem 
                   key={index} 
                   value={`item-${index}`}
-                  className="border-b border-slate-100"
+                  className="border-b border-white/10"
                   data-testid={`faq-item-${index}`}
                 >
-                  <AccordionTrigger className="text-left font-heading font-medium text-slate-900 hover:text-sky-500 py-5">
+                  <AccordionTrigger className="text-left font-heading font-medium text-white hover:text-blue-400 py-6 text-lg">
                     {item.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-slate-500 pb-5">
+                  <AccordionContent className="text-white/50 pb-6 leading-relaxed">
                     {item.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -308,27 +280,26 @@ const Pricing = () => {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-16 md:py-20 bg-slate-900">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
+      <section className="py-24 md:py-32 border-t border-white/5">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
           >
-            <h2 className="font-heading text-2xl md:text-3xl font-semibold text-white">
-              Not sure which package is right for you?
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
+              Not sure which package?
             </h2>
-            <p className="mt-4 text-slate-400">
-              Get a free video audit and we'll recommend the best starting point.
+            <p className="text-white/40 mb-10">
+              Get a free video audit. We'll recommend the best starting point.
             </p>
-            <Button
+            <button
               data-testid="pricing-bottom-cta"
-              className="mt-8 bg-sky-500 text-white hover:bg-sky-600 rounded-full h-12 px-8 font-medium shadow-lg shadow-sky-500/30"
+              className="group inline-flex items-center gap-3 bg-white text-black px-10 py-5 rounded-full text-lg font-medium transition-all hover:scale-105"
             >
-              Get a Free Video Audit
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+              Get a Free Audit
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </button>
           </motion.div>
         </div>
       </section>

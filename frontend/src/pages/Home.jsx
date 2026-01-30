@@ -1,447 +1,415 @@
-import { motion } from 'framer-motion';
-import Marquee from 'react-fast-marquee';
-import { 
-  Play, 
-  Zap, 
-  TrendingUp, 
-  BookOpen, 
-  Presentation, 
-  Palette,
-  ArrowRight,
-  Check,
-  Quote
-} from 'lucide-react';
-import { Button } from '../components/ui/button';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { ArrowUpRight, Play, Sparkles, Zap, Film, Users, ArrowRight } from 'lucide-react';
 import { Layout } from '../components/Layout';
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.5, ease: 'easeOut' }
+// Animation variants
+const fadeUp = {
+  initial: { opacity: 0, y: 40 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }
 };
 
-const staggerContainer = {
-  initial: {},
-  whileInView: { transition: { staggerChildren: 0.1 } },
-  viewport: { once: true }
+const stagger = {
+  animate: { transition: { staggerChildren: 0.1 } }
 };
 
-// Hero Section
-const HeroSection = () => (
-  <section className="relative pt-16 pb-20 md:pt-24 md:pb-32 overflow-hidden">
-    <div className="max-w-7xl mx-auto px-6 md:px-12">
-      <motion.div 
-        className="max-w-4xl"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-      >
-        <span className="inline-block text-sm font-medium tracking-wide uppercase text-sky-500 mb-4">
-          Video Production for SaaS
-        </span>
-        <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1] tracking-tight">
-          Your growth-focused creative engine for SaaS & AI brands.
-        </h1>
-        <p className="mt-6 text-lg md:text-xl text-slate-500 max-w-2xl leading-relaxed">
-          We turn complex products into clear, conversion-ready videos—built for launches, onboarding, and distribution across LinkedIn, X, and your website.
-        </p>
-        
-        <div className="mt-8 flex flex-col sm:flex-row gap-4">
-          <Button 
-            data-testid="hero-video-audit-btn"
-            className="bg-slate-900 text-white hover:bg-slate-800 rounded-full h-12 px-8 text-base font-medium shadow-lg shadow-slate-900/20"
-          >
-            Get a Video Audit
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-          <Button 
-            variant="outline"
-            data-testid="hero-how-it-works-btn"
-            className="border-2 border-slate-200 bg-transparent hover:bg-slate-50 text-slate-900 rounded-full h-12 px-8 text-base font-medium"
-          >
-            How it works
-          </Button>
-        </div>
+// Hero Section - Cinematic Full Screen
+const HeroSection = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
 
-        <p className="mt-8 text-sm text-slate-400">
-          Fast turnaround. Strategy-led. Built to convert—not just look good.
-        </p>
-      </motion.div>
-    </div>
-    
-    {/* Decorative elements */}
-    <div className="absolute top-20 right-0 w-96 h-96 bg-sky-50 rounded-full blur-3xl opacity-50 -z-10" />
-    <div className="absolute bottom-0 left-1/4 w-64 h-64 bg-slate-100 rounded-full blur-3xl opacity-50 -z-10" />
-  </section>
-);
-
-// Client Logos Marquee
-const ClientLogos = () => {
-  const clients = ['AltEzza', 'hbm', 'SpatiumX', 'Classster', 'CustomGuide', 'Vemotion', 'Kitaboo', 'DSharp'];
-  
   return (
-    <section className="py-12 border-y border-slate-100 bg-slate-50/50">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-6">
-        <p className="text-sm text-slate-400 text-center">
-          Trusted by founders, growth teams, and product marketers building in public
-        </p>
-      </div>
-      <Marquee gradient={true} gradientColor="#fafafa" gradientWidth={100} speed={40}>
-        {clients.map((client, index) => (
-          <span 
-            key={index}
-            className="mx-12 font-heading text-xl md:text-2xl font-bold text-slate-300 uppercase tracking-wider"
-            data-testid={`client-logo-${client.toLowerCase()}`}
+    <section ref={ref} className="relative h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        style={{ scale }}
+      >
+        <img 
+          src="https://images.unsplash.com/photo-1705107958696-a7f73c749ab3?q=80&w=2000&auto=format&fit=crop"
+          alt="Cinematic background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-[#020408]" />
+      </motion.div>
+
+      {/* Content */}
+      <motion.div 
+        className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24 w-full"
+        style={{ opacity }}
+      >
+        <motion.div
+          variants={stagger}
+          initial="initial"
+          animate="animate"
+          className="max-w-5xl"
+        >
+          {/* Label */}
+          <motion.div 
+            variants={fadeUp}
+            className="flex items-center gap-3 mb-8"
           >
-            {client}
-          </span>
-        ))}
-      </Marquee>
+            <span className="w-12 h-[1px] bg-blue-500" />
+            <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400">
+              Video Production Studio
+            </span>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1 
+            variants={fadeUp}
+            className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.95] tracking-tighter"
+          >
+            We turn SaaS
+            <br />
+            <span className="text-white/40">into Cinema.</span>
+          </motion.h1>
+
+          {/* Subhead */}
+          <motion.p 
+            variants={fadeUp}
+            className="mt-8 text-lg md:text-xl text-white/50 max-w-xl leading-relaxed"
+          >
+            Premium video production for brands that refuse to be boring. 
+            Launch films, product demos, and content that actually converts.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div 
+            variants={fadeUp}
+            className="mt-12 flex flex-col sm:flex-row gap-4"
+          >
+            <button 
+              data-testid="hero-video-audit-btn"
+              className="group flex items-center justify-center gap-3 bg-white text-black px-8 py-5 rounded-full text-base font-medium transition-all hover:scale-105 active:scale-95"
+            >
+              Get a Video Audit
+              <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </button>
+            <button 
+              data-testid="hero-showreel-btn"
+              className="group flex items-center justify-center gap-3 bg-transparent border border-white/20 text-white px-8 py-5 rounded-full text-base font-medium transition-all hover:bg-white/10"
+            >
+              <Play className="w-5 h-5" />
+              Watch Showreel
+            </button>
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      {/* Scroll Indicator */}
+      <motion.div 
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 2, repeat: Infinity }}
+      >
+        <div className="w-[1px] h-16 bg-gradient-to-b from-white/0 via-white/50 to-white/0" />
+      </motion.div>
     </section>
   );
 };
 
-// Services Section
+// Client Logos - Minimal Strip
+const ClientLogos = () => {
+  const clients = ['AltEzza', 'hbm', 'SpatiumX', 'Classster', 'CustomGuide', 'Vemotion', 'Kitaboo', 'DSharp'];
+  
+  return (
+    <section className="py-16 border-y border-white/5">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
+        <div className="flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
+          <p className="text-xs font-mono uppercase tracking-[0.2em] text-white/30 whitespace-nowrap">
+            Trusted by
+          </p>
+          <div className="flex flex-wrap gap-x-12 gap-y-4">
+            {clients.map((client, index) => (
+              <span 
+                key={index}
+                className="font-heading text-lg font-semibold text-white/20"
+                data-testid={`client-logo-${client.toLowerCase()}`}
+              >
+                {client}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Services - Bento Grid
 const services = [
   {
-    icon: Play,
+    icon: Film,
     title: 'Launch Films',
-    description: 'Homepage hero videos and launch assets that explain your product in seconds.',
-    features: ['45–90s flagship explainer', 'Product-led scripting & storyboard', 'Website, Product Hunt & social exports']
+    desc: 'Cinematic hero videos that make your homepage unforgettable. 45-90 seconds of pure clarity.',
+    size: 'large',
+    features: ['Product-led scripting', 'Multi-platform exports', 'Sound design included']
   },
   {
     icon: Zap,
     title: 'Feature Spotlights',
-    description: 'Short videos that drive adoption and reduce repetitive "how do I…" questions.',
-    features: ['30–60s feature walkthroughs', 'How-to & onboarding cuts', 'In-app / help-center friendly formats']
+    desc: 'Quick, punchy videos that drive feature adoption.',
+    size: 'small',
+    features: ['30-60s format', 'UI callouts']
   },
   {
-    icon: TrendingUp,
+    icon: Sparkles,
     title: 'Growth Clips',
-    description: 'High-velocity short videos built for distribution.',
-    features: ['10–15s hooks with punchy edits', 'Founder POV and product-first variants', 'Weekly drop-ready formats']
+    desc: 'Vertical content built for virality. LinkedIn, Twitter, TikTok ready.',
+    size: 'tall',
+    features: ['10-15s hooks', 'Weekly drops', 'Founder POV variants']
   },
   {
-    icon: BookOpen,
-    title: 'Product Education Library',
-    description: 'A clean video knowledge base that trains users and builds trust.',
-    features: ['Tutorials & workflows', 'Modular chapters', 'Reusable voice & visual system']
-  },
-  {
-    icon: Presentation,
-    title: 'Sales Enablement Videos',
-    description: 'Make every pitch consistent and every demo easier to understand.',
-    features: ['Use-case & objection-handling videos', '"Before the demo" explainers', 'Sales-ready exports']
-  },
-  {
-    icon: Palette,
-    title: 'Brand Systems',
-    description: 'A repeatable motion and editing system so everything looks consistent.',
-    features: ['Motion & caption templates', 'Typography & visual rules', 'Platform-specific export presets']
+    icon: Users,
+    title: 'Customer Stories',
+    desc: 'Documentary-style testimonials that build trust.',
+    size: 'small',
+    features: ['Interview-based', 'B-roll included']
   }
 ];
 
 const ServicesSection = () => (
-  <section className="py-20 md:py-32 bg-white">
-    <div className="max-w-7xl mx-auto px-6 md:px-12">
+  <section className="py-24 md:py-40">
+    <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
+      {/* Header */}
       <motion.div 
-        className="text-center mb-16"
-        {...fadeInUp}
-      >
-        <span className="inline-block text-sm font-medium tracking-wide uppercase text-sky-500 mb-4">
-          Service Tracks
-        </span>
-        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight">
-          Services tuned for SaaS & AI growth
-        </h2>
-        <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-          Pick a track based on what you're optimizing for—launch momentum, feature adoption, or consistent distribution.
-        </p>
-      </motion.div>
-
-      <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        variants={staggerContainer}
-        initial="initial"
-        whileInView="whileInView"
-        viewport={{ once: true }}
-      >
-        {services.map((service, index) => (
-          <motion.div
-            key={index}
-            variants={fadeInUp}
-            className="group rounded-2xl border border-slate-100 bg-white p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
-            data-testid={`service-card-${index}`}
-          >
-            <div className="w-12 h-12 rounded-xl bg-sky-50 flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
-              <service.icon size={24} strokeWidth={1.5} />
-            </div>
-            <h3 className="font-heading text-xl font-semibold text-slate-900 mb-3">
-              {service.title}
-            </h3>
-            <p className="text-slate-500 mb-4">
-              {service.description}
-            </p>
-            <ul className="space-y-2">
-              {service.features.map((feature, fIndex) => (
-                <li key={fIndex} className="flex items-start gap-2 text-sm text-slate-600">
-                  <Check size={16} className="text-sky-500 mt-0.5 flex-shrink-0" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  </section>
-);
-
-// Video Styles Section
-const videoStyles = [
-  'Product-led Explainer',
-  'Founder POV Clip',
-  'UI Walkthrough + Callouts',
-  'Motion Teaser',
-  'Feature Drop',
-  'Onboarding Mini-Series',
-  'Sales Enablement Video',
-  'Education / How-To'
-];
-
-const VideoStylesSection = () => (
-  <section className="py-20 md:py-32 bg-slate-50">
-    <div className="max-w-7xl mx-auto px-6 md:px-12">
-      <motion.div 
-        className="text-center mb-16"
-        {...fadeInUp}
-      >
-        <span className="inline-block text-sm font-medium tracking-wide uppercase text-sky-500 mb-4">
-          Styles
-        </span>
-        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight">
-          Formats we use to make SaaS products instantly clear
-        </h2>
-        <p className="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
-          We adapt these styles based on your product, audience, and funnel stage.
-        </p>
-      </motion.div>
-
-      <motion.div 
-        className="grid grid-cols-2 md:grid-cols-4 gap-4"
-        variants={staggerContainer}
-        initial="initial"
-        whileInView="whileInView"
-        viewport={{ once: true }}
-      >
-        {videoStyles.map((style, index) => (
-          <motion.div
-            key={index}
-            variants={fadeInUp}
-            className="rounded-xl bg-white border border-slate-100 p-6 text-center hover:border-sky-200 hover:bg-sky-50/30 transition-all duration-300 cursor-default"
-            data-testid={`video-style-${index}`}
-          >
-            <span className="font-heading text-base md:text-lg font-medium text-slate-700">
-              {style}
-            </span>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      <motion.div 
-        className="mt-12 text-center"
-        {...fadeInUp}
-      >
-        <Button 
-          data-testid="styles-video-audit-btn"
-          className="bg-slate-900 text-white hover:bg-slate-800 rounded-full h-12 px-8 text-base font-medium shadow-lg shadow-slate-900/20"
-        >
-          Get a Video Audit
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
-      </motion.div>
-    </div>
-  </section>
-);
-
-// Testimonials Section
-const testimonials = [
-  {
-    quote: "Clarity Labs nailed the story in one pass. Our homepage finally makes sense—and demo requests jumped within the first week.",
-    author: "Founder",
-    company: "B2B SaaS"
-  },
-  {
-    quote: "Fast turnaround, great structure, and clips that were genuinely usable for distribution.",
-    author: "Head of Growth",
-    company: "AI startup"
-  },
-  {
-    quote: "They didn't just edit. They fixed the narrative.",
-    author: "Product Marketing",
-    company: "SaaS team"
-  }
-];
-
-const TestimonialsSection = () => (
-  <section className="py-20 md:py-32 bg-white">
-    <div className="max-w-7xl mx-auto px-6 md:px-12">
-      <motion.div 
-        className="text-center mb-16"
-        {...fadeInUp}
-      >
-        <span className="inline-block text-sm font-medium tracking-wide uppercase text-sky-500 mb-4">
-          What Founders Care About
-        </span>
-        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight">
-          Speed, clarity, and videos that actually explain the product.
-        </h2>
-      </motion.div>
-
-      <motion.div 
-        className="grid grid-cols-1 md:grid-cols-3 gap-8"
-        variants={staggerContainer}
-        initial="initial"
-        whileInView="whileInView"
-        viewport={{ once: true }}
-      >
-        {testimonials.map((testimonial, index) => (
-          <motion.div
-            key={index}
-            variants={fadeInUp}
-            className="relative rounded-2xl bg-slate-50 p-8 md:p-10"
-            data-testid={`testimonial-${index}`}
-          >
-            <Quote className="absolute top-6 left-6 text-sky-200 h-8 w-8" />
-            <p className="relative text-lg text-slate-700 leading-relaxed pt-6">
-              "{testimonial.quote}"
-            </p>
-            <div className="mt-6 pt-6 border-t border-slate-200">
-              <p className="font-heading font-semibold text-slate-900">
-                — {testimonial.author}
-              </p>
-              <p className="text-sm text-slate-500">
-                {testimonial.company}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  </section>
-);
-
-// Process Section
-const processSteps = [
-  {
-    number: '01',
-    title: 'Discovery',
-    description: 'We align on audience, funnel goal, and the one message that must land.',
-    outputs: 'brief, references, success metric'
-  },
-  {
-    number: '02',
-    title: 'Content Alignment & Scripting',
-    description: 'We craft the hook, structure the story, and write for clarity.',
-    outputs: 'script, beats, CTA'
-  },
-  {
-    number: '03',
-    title: 'Storyboarding',
-    description: 'Visuals mapped to the message—nothing extra, nothing missing.',
-    outputs: 'storyboard, shot list'
-  },
-  {
-    number: '04',
-    title: 'Motion & Edit',
-    description: 'Clean cuts, UI callouts, captions, and sound design.',
-    outputs: 'V1 + variants'
-  },
-  {
-    number: '05',
-    title: 'Delivery & Optimization',
-    description: 'Exports for web and social with fast feedback loops.',
-    outputs: 'final pack + files'
-  }
-];
-
-const ProcessSection = () => (
-  <section className="py-20 md:py-32 bg-slate-900 text-white">
-    <div className="max-w-7xl mx-auto px-6 md:px-12">
-      <motion.div 
-        className="text-center mb-16"
-        {...fadeInUp}
-      >
-        <span className="inline-block text-sm font-medium tracking-wide uppercase text-sky-400 mb-4">
-          Process
-        </span>
-        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold tracking-tight">
-          Built for speed. Powered by strategy.
-        </h2>
-        <p className="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">
-          A simple workflow that keeps things moving—without sacrificing quality.
-        </p>
-      </motion.div>
-
-      <motion.div 
-        className="grid grid-cols-1 md:grid-cols-5 gap-6"
-        variants={staggerContainer}
-        initial="initial"
-        whileInView="whileInView"
-        viewport={{ once: true }}
-      >
-        {processSteps.map((step, index) => (
-          <motion.div
-            key={index}
-            variants={fadeInUp}
-            className="relative"
-            data-testid={`process-step-${index}`}
-          >
-            <span className="font-heading text-5xl md:text-6xl font-bold text-slate-800">
-              {step.number}
-            </span>
-            <h3 className="font-heading text-lg md:text-xl font-semibold mt-4 mb-2">
-              {step.title}
-            </h3>
-            <p className="text-slate-400 text-sm mb-3">
-              {step.description}
-            </p>
-            <p className="text-xs text-sky-400">
-              Outputs: {step.outputs}
-            </p>
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  </section>
-);
-
-// Final CTA Section
-const FinalCTASection = () => (
-  <section className="py-20 md:py-32 bg-white">
-    <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
-      <motion.div
+        className="mb-20"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight">
-          Grow with videos that convert.
+        <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400 mb-4 block">
+          What We Do
+        </span>
+        <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+          Video that moves
+          <br />
+          <span className="text-white/30">products forward.</span>
         </h2>
-        <p className="mt-6 text-lg text-slate-500 max-w-xl mx-auto">
-          If your product is hard to explain, you're losing demos.
-          Let's fix that—with a clean, fast video system.
+      </motion.div>
+
+      {/* Bento Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        {/* Large Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="md:col-span-2 md:row-span-2 group relative bg-[#0A0A0A] border border-white/10 p-8 md:p-12 overflow-hidden hover:border-white/20 transition-all duration-500"
+          data-testid="service-card-0"
+        >
+          <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 group-hover:opacity-20 transition-opacity">
+            <img 
+              src="https://images.unsplash.com/photo-1586268659832-13b6a3be3b0d?q=80&w=600&auto=format&fit=crop" 
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="relative z-10">
+            <Film className="w-10 h-10 text-blue-400 mb-8" strokeWidth={1.5} />
+            <h3 className="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
+              {services[0].title}
+            </h3>
+            <p className="text-white/50 text-lg mb-8 max-w-md">
+              {services[0].desc}
+            </p>
+            <ul className="flex flex-wrap gap-3">
+              {services[0].features.map((f, i) => (
+                <li key={i} className="text-xs font-mono uppercase tracking-wider text-white/30 bg-white/5 px-4 py-2">
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
+
+        {/* Small Cards */}
+        {services.slice(1).map((service, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 * (index + 1) }}
+            className={`group bg-[#0A0A0A] border border-white/10 p-8 hover:border-white/20 transition-all duration-500 ${
+              service.size === 'tall' ? 'md:row-span-2' : ''
+            }`}
+            data-testid={`service-card-${index + 1}`}
+          >
+            <service.icon className="w-8 h-8 text-blue-400 mb-6" strokeWidth={1.5} />
+            <h3 className="font-heading text-xl md:text-2xl font-bold text-white mb-3">
+              {service.title}
+            </h3>
+            <p className="text-white/40 mb-6">
+              {service.desc}
+            </p>
+            <ul className="space-y-2">
+              {service.features.map((f, i) => (
+                <li key={i} className="text-xs text-white/30">
+                  → {f}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+// Process Section - Horizontal Steps
+const processSteps = [
+  { num: '01', title: 'Discovery', desc: 'We align on your audience, goals, and the one message that must land.' },
+  { num: '02', title: 'Scripting', desc: 'Craft the hook, structure the story, write for maximum clarity.' },
+  { num: '03', title: 'Production', desc: 'Screen capture, motion design, and visual polish.' },
+  { num: '04', title: 'Launch', desc: 'Exports optimized for every platform. Fast feedback loops.' }
+];
+
+const ProcessSection = () => (
+  <section className="py-24 md:py-40 border-t border-white/5">
+    <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
+      <motion.div 
+        className="mb-20"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400 mb-4 block">
+          Process
+        </span>
+        <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+          From brief to
+          <br />
+          <span className="text-white/30">launch in weeks.</span>
+        </h2>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
+        {processSteps.map((step, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            className="relative"
+            data-testid={`process-step-${index}`}
+          >
+            {index < processSteps.length - 1 && (
+              <div className="hidden md:block absolute top-8 left-full w-full h-[1px] bg-gradient-to-r from-white/20 to-transparent" />
+            )}
+            <span className="font-heading text-6xl md:text-7xl font-bold text-white/5">
+              {step.num}
+            </span>
+            <h3 className="font-heading text-xl font-semibold text-white mt-4 mb-2">
+              {step.title}
+            </h3>
+            <p className="text-white/40 text-sm leading-relaxed">
+              {step.desc}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+// Testimonials - Editorial Style
+const testimonials = [
+  {
+    quote: "Clarity Labs nailed the story in one pass. Our homepage finally makes sense—demo requests jumped within the first week.",
+    author: "Founder",
+    company: "B2B SaaS"
+  },
+  {
+    quote: "They didn't just edit. They fixed the narrative. Fast turnaround, great structure.",
+    author: "Head of Growth",
+    company: "AI Startup"
+  },
+  {
+    quote: "Finally, videos we can actually use for distribution. Not just pretty—effective.",
+    author: "Product Marketing",
+    company: "Series B SaaS"
+  }
+];
+
+const TestimonialsSection = () => (
+  <section className="py-24 md:py-40 bg-[#0A0A0A]">
+    <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
+      <motion.div 
+        className="mb-20"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400 mb-4 block">
+          Testimonials
+        </span>
+        <h2 className="font-heading text-4xl md:text-5xl font-bold text-white tracking-tight">
+          What founders say.
+        </h2>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {testimonials.map((t, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            className="border-t border-white/10 pt-8"
+            data-testid={`testimonial-${index}`}
+          >
+            <p className="text-white/70 text-lg leading-relaxed mb-8">
+              "{t.quote}"
+            </p>
+            <div>
+              <p className="font-heading font-semibold text-white">{t.author}</p>
+              <p className="text-white/40 text-sm">{t.company}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+// Final CTA - Big Impact
+const FinalCTA = () => (
+  <section className="py-32 md:py-48 relative overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] to-[#020408]" />
+    
+    <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24 relative z-10">
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-center max-w-4xl mx-auto"
+      >
+        <h2 className="font-heading text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1]">
+          Ready to make your
+          <br />
+          <span className="text-blue-400">product click?</span>
+        </h2>
+        <p className="mt-8 text-white/40 text-lg md:text-xl max-w-xl mx-auto">
+          If your product is hard to explain, you're losing demos. 
+          Let's fix that with video that converts.
         </p>
-        <div className="mt-8">
-          <Button 
+        <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+          <button 
             data-testid="final-cta-btn"
-            className="bg-sky-500 text-white hover:bg-sky-600 rounded-full h-14 px-10 text-lg font-medium shadow-lg shadow-sky-500/30"
+            className="group flex items-center justify-center gap-3 bg-blue-500 text-white px-10 py-6 rounded-full text-lg font-medium transition-all hover:bg-blue-400 hover:scale-105 glow"
           >
             Book a Consultation
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+          </button>
         </div>
       </motion.div>
     </div>
@@ -455,10 +423,9 @@ const Home = () => {
       <HeroSection />
       <ClientLogos />
       <ServicesSection />
-      <VideoStylesSection />
-      <TestimonialsSection />
       <ProcessSection />
-      <FinalCTASection />
+      <TestimonialsSection />
+      <FinalCTA />
     </Layout>
   );
 };
