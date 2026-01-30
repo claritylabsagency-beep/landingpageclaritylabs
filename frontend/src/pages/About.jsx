@@ -13,17 +13,20 @@ const values = [
   {
     icon: Target,
     title: 'Clarity Over Complexity',
-    desc: 'The best videos don\'t just look good—they make complex products instantly clear. Every frame serves the message.'
+    desc: 'The best videos don\'t just look good—they make complex products instantly clear. Every frame serves the message.',
+    color: 'bg-blue-50 text-blue-600'
   },
   {
     icon: Zap,
     title: 'Speed Without Sacrifice',
-    desc: 'Fast turnaround doesn\'t mean cutting corners. Our streamlined process delivers premium quality in days, not weeks.'
+    desc: 'Fast turnaround doesn\'t mean cutting corners. Premium quality in days, not weeks.',
+    color: 'bg-amber-50 text-amber-600'
   },
   {
     icon: Eye,
     title: 'Founder-First',
-    desc: 'We\'ve worked with enough startups to know your time is precious. Minimal meetings, async communication, maximum impact.'
+    desc: 'We know your time is precious. Minimal meetings, async communication, maximum impact.',
+    color: 'bg-emerald-50 text-emerald-600'
   }
 ];
 
@@ -31,84 +34,85 @@ const About = () => {
   return (
     <Layout>
       {/* Hero */}
-      <section className="pt-32 md:pt-40 pb-20 md:pb-32">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-end">
+      <section className="pt-40 pb-20 aurora-bg relative overflow-hidden">
+        {/* Decorative blob */}
+        <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-blue-100 rounded-full blur-3xl opacity-40" />
+        
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
             >
-              <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400 mb-4 block">
+              <p className="text-xs font-mono uppercase tracking-widest text-blue-600 mb-4">
                 About
-              </span>
-              <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[0.95]">
-                We make
+              </p>
+              <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-medium text-slate-900 leading-[0.95]">
+                We make products
                 <br />
-                products
-                <br />
-                <span className="text-white/30">click.</span>
+                <span className="text-blue-600">click.</span>
               </h1>
             </motion.div>
             
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ delay: 0.2 }}
             >
-              <p className="text-white/50 text-lg md:text-xl leading-relaxed">
+              <p className="text-lg text-slate-500 leading-relaxed">
                 Clarity Labs is a premium video studio built specifically for SaaS and AI companies. 
-                We turn complex products into clear, conversion-ready videos that work across 
-                your homepage, social feeds, and sales conversations.
+                We turn complex products into clear, conversion-ready videos.
               </p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Visual Break */}
-      <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
-        <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1700241956172-1045342673ed?q=80&w=2000&auto=format&fit=crop"
-            alt="Studio"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#020408] via-[#020408]/50 to-transparent" />
+      {/* Image */}
+      <section className="pb-20">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <motion.div
+            {...fadeUp}
+            className="relative rounded-3xl overflow-hidden aspect-[21/9] shadow-floating"
+          >
+            <img 
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80"
+              alt="Team collaboration"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          </motion.div>
         </div>
       </section>
 
       {/* Values */}
-      <section className="py-24 md:py-40">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
-          <motion.div 
-            className="mb-20"
-            {...fadeUp}
-          >
-            <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400 mb-4 block">
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <motion.div {...fadeUp} className="max-w-2xl mb-16">
+            <p className="text-xs font-mono uppercase tracking-widest text-blue-600 mb-4">
               Principles
-            </span>
-            <h2 className="font-heading text-4xl md:text-5xl font-bold text-white tracking-tight">
+            </p>
+            <h2 className="font-heading text-4xl md:text-5xl font-medium text-slate-900">
               What drives us.
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((value, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                {...fadeUp}
                 transition={{ delay: index * 0.1 }}
-                className="border-t border-white/10 pt-8"
+                className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover-lift"
                 data-testid={`value-card-${index}`}
               >
-                <value.icon className="w-8 h-8 text-blue-400 mb-6" strokeWidth={1.5} />
-                <h3 className="font-heading text-xl font-bold text-white mb-4">
+                <div className={`w-14 h-14 rounded-2xl ${value.color} flex items-center justify-center mb-6`}>
+                  <value.icon className="w-7 h-7" />
+                </div>
+                <h3 className="font-heading text-xl font-medium text-slate-900 mb-3">
                   {value.title}
                 </h3>
-                <p className="text-white/40 leading-relaxed">
+                <p className="text-slate-500 leading-relaxed">
                   {value.desc}
                 </p>
               </motion.div>
@@ -118,83 +122,81 @@ const About = () => {
       </section>
 
       {/* Story */}
-      <section className="py-24 md:py-40 bg-[#0A0A0A]">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32">
+      <section className="py-24 md:py-32 bg-slate-50 rounded-[3rem] mx-4 md:mx-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <motion.div {...fadeUp}>
-              <span className="text-xs font-mono uppercase tracking-[0.3em] text-blue-400 mb-4 block">
-                The Story
-              </span>
-              <h2 className="font-heading text-3xl md:text-4xl font-bold text-white tracking-tight mb-8">
+              <p className="text-xs font-mono uppercase tracking-widest text-blue-600 mb-4">
+                Our Story
+              </p>
+              <h2 className="font-heading text-3xl md:text-4xl font-medium text-slate-900 mb-8">
                 Built by founders,
-                <br />
-                for founders.
+                <span className="text-slate-400"> for founders.</span>
               </h2>
-              <div className="space-y-6 text-white/50 leading-relaxed">
+              <div className="space-y-6 text-slate-500 leading-relaxed">
                 <p>
                   We started Clarity Labs after seeing too many great products struggle to explain themselves. 
                   Founders would spend months building incredible software, then lose potential customers 
                   in the first 10 seconds of their homepage.
                 </p>
                 <p>
-                  The problem wasn't the product—it was the communication. So we set out to build 
-                  a video studio that actually understands SaaS. One that speaks the language of 
-                  product-led growth and knows that a homepage explainer is different from a 
-                  feature drop on Twitter.
+                  The problem wasn't the product—it was the communication. So we built a video studio 
+                  that actually understands SaaS. One that speaks the language of product-led growth.
                 </p>
                 <p>
-                  Today, we work with SaaS teams of all sizes—from bootstrapped startups to 
-                  funded scale-ups—helping them turn complex products into clear, compelling 
-                  videos that convert.
+                  Today, we work with SaaS teams of all sizes—from bootstrapped startups to funded scale-ups—
+                  helping them turn complex products into clear, compelling videos that convert.
                 </p>
               </div>
             </motion.div>
             
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              {...fadeUp}
               transition={{ delay: 0.2 }}
               className="relative"
             >
-              <div className="aspect-[4/5] overflow-hidden">
+              <div className="rounded-3xl overflow-hidden shadow-floating">
                 <img
-                  src="https://images.unsplash.com/photo-1586268659832-13b6a3be3b0d?q=80&w=800&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1559507628-40a52a5e7081?auto=format&fit=crop&w=800&q=80"
                   alt="Production"
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                  className="w-full aspect-[4/5] object-cover"
                 />
               </div>
-              {/* Decorative */}
-              <div className="absolute -bottom-4 -right-4 w-full h-full border border-blue-500/20 -z-10" />
+              {/* Decorative element */}
+              <div className="absolute -bottom-4 -right-4 w-full h-full rounded-3xl border-2 border-blue-200 -z-10" />
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-32 md:py-48">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24 text-center">
+      <section className="py-24 md:py-32">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            {...fadeUp}
+            className="relative bg-slate-900 rounded-[2.5rem] p-12 md:p-20 overflow-hidden text-center"
           >
-            <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6">
-              Let's make something
-              <br />
-              <span className="text-blue-400">worth watching.</span>
-            </h2>
-            <p className="text-white/40 text-lg mb-12 max-w-xl mx-auto">
-              If your product is hard to explain, you're leaving money on the table. 
-              Let's fix that.
-            </p>
-            <button
-              data-testid="about-cta-btn"
-              className="group inline-flex items-center gap-3 bg-blue-500 text-white px-10 py-6 rounded-full text-lg font-medium transition-all hover:bg-blue-400 hover:scale-105 glow"
-            >
-              Book a Consultation
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </button>
+            {/* Decorative */}
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-600/20 to-transparent" />
+            
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <h2 className="font-heading text-4xl md:text-5xl font-medium text-white mb-6">
+                Let's make something
+                <span className="text-blue-400"> worth watching.</span>
+              </h2>
+              <p className="text-slate-400 text-lg mb-10">
+                If your product is hard to explain, you're leaving money on the table.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                data-testid="about-cta-btn"
+                className="group inline-flex items-center gap-3 bg-white text-slate-900 px-8 py-5 rounded-full text-lg font-medium shadow-xl hover:shadow-2xl transition-all"
+              >
+                Book a Consultation
+                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </motion.button>
+            </div>
           </motion.div>
         </div>
       </section>
