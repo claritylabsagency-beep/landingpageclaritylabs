@@ -1,5 +1,5 @@
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Check, ArrowUpRight } from 'lucide-react';
 import { Layout } from '../components/Layout';
 import {
@@ -47,25 +47,31 @@ const Pricing = () => {
   const headerInView = useInView(headerRef, { once: true });
   const cardsRef = useRef(null);
   const cardsInView = useInView(cardsRef, { once: true, margin: "-100px" });
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   return (
     <Layout>
       {/* Hero */}
-      <section className="pt-40 pb-20 md:pb-32">
-        <div className="max-w-[1800px] mx-auto px-6 md:px-12">
+      <section className="pt-40 pb-20 md:pb-32 relative overflow-hidden">
+        <motion.div 
+          className="absolute top-20 right-20 w-96 h-96 bg-green-500/10 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ duration: 8, repeat: Infinity }}
+        />
+        <div className="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
           <motion.div
             ref={headerRef}
             initial={{ opacity: 0, y: 40 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-sm text-black/40 uppercase tracking-[0.2em] mb-4">Pricing</p>
-            <h1 className="text-5xl md:text-6xl lg:text-8xl font-medium tracking-tighter">
+            <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-4">Pricing</p>
+            <h1 className="text-5xl md:text-6xl lg:text-8xl font-medium tracking-tighter text-white">
               Simple
               <br />
-              <span className="font-serif italic">pricing</span>
+              <span className="text-green-400 font-serif italic">pricing</span>
             </h1>
-            <p className="mt-8 text-lg md:text-xl text-black/50 max-w-xl">
+            <p className="mt-8 text-lg md:text-xl text-white/50 max-w-xl">
               No hidden fees. No surprises. Just clear pricing for video that converts.
             </p>
           </motion.div>
@@ -82,32 +88,32 @@ const Pricing = () => {
                 initial={{ opacity: 0, y: 40 }}
                 animate={cardsInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className={`p-8 md:p-10 border transition-colors duration-500 group ${
+                className={`p-8 md:p-10 border transition-all duration-500 ${
                   plan.featured 
-                    ? 'bg-black text-white border-black' 
-                    : 'border-black/10 hover:bg-black hover:text-white hover:border-black'
+                    ? 'bg-green-500 text-green-950 border-green-500' 
+                    : 'border-green-900 hover:border-green-700 hover:bg-green-900/30'
                 }`}
+                onMouseEnter={() => setHoveredCard(i)}
+                onMouseLeave={() => setHoveredCard(null)}
                 data-testid={`pricing-card-${i}`}
               >
                 {plan.featured && (
-                  <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-4">Most Popular</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-green-900 mb-4">Most Popular</p>
                 )}
-                <h3 className="text-2xl font-medium mb-2">{plan.name}</h3>
-                <p className={`text-sm mb-6 ${plan.featured ? 'text-white/50' : 'text-black/50 group-hover:text-white/50'}`}>
-                  {plan.desc}
-                </p>
-                <p className="text-4xl md:text-5xl font-medium mb-8">{plan.price}</p>
+                <h3 className={`text-2xl font-medium mb-2 ${plan.featured ? 'text-green-950' : 'text-white'}`}>{plan.name}</h3>
+                <p className={`text-sm mb-6 ${plan.featured ? 'text-green-800' : 'text-white/50'}`}>{plan.desc}</p>
+                <p className={`text-4xl md:text-5xl font-medium mb-8 ${plan.featured ? 'text-green-950' : 'text-green-400'}`}>{plan.price}</p>
                 
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((f, j) => (
                     <li key={j} className="flex items-center gap-3 text-sm">
-                      <Check className={`w-4 h-4 ${plan.featured ? 'text-white/50' : 'text-black/30 group-hover:text-white/50'}`} />
-                      <span className={plan.featured ? 'text-white/70' : 'text-black/70 group-hover:text-white/70'}>{f}</span>
+                      <Check className={`w-4 h-4 ${plan.featured ? 'text-green-800' : 'text-green-500'}`} />
+                      <span className={plan.featured ? 'text-green-900' : 'text-white/70'}>{f}</span>
                     </li>
                   ))}
                 </ul>
 
-                <p className={`text-xs mb-6 ${plan.featured ? 'text-white/30' : 'text-black/30 group-hover:text-white/30'}`}>
+                <p className={`text-xs mb-6 ${plan.featured ? 'text-green-800' : 'text-white/30'}`}>
                   Delivery: {plan.time}
                 </p>
 
@@ -117,8 +123,8 @@ const Pricing = () => {
                   data-testid={`pricing-cta-${i}`}
                   className={`w-full py-4 font-medium flex items-center justify-center gap-2 transition-colors ${
                     plan.featured 
-                      ? 'bg-white text-black' 
-                      : 'bg-black text-white group-hover:bg-white group-hover:text-black'
+                      ? 'bg-green-950 text-green-400 hover:bg-green-900' 
+                      : 'bg-green-500 text-green-950 hover:bg-green-400'
                   }`}
                 >
                   {plan.price === 'Custom' ? 'Contact Us' : 'Get Started'}
@@ -131,23 +137,31 @@ const Pricing = () => {
       </section>
 
       {/* What's Included */}
-      <section className="py-24 md:py-32 border-y border-black/10">
+      <section className="py-24 md:py-32 border-y border-green-900">
         <div className="max-w-[1800px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
-              <p className="text-sm text-black/40 uppercase tracking-[0.2em] mb-4">Included</p>
-              <h2 className="text-4xl md:text-5xl font-medium tracking-tighter">
+              <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-4">Included</p>
+              <h2 className="text-4xl md:text-5xl font-medium tracking-tighter text-white">
                 Everything you
                 <br />
-                <span className="font-serif italic">need</span>
+                <span className="text-green-400 font-serif italic">need</span>
               </h2>
             </div>
             <div className="grid grid-cols-2 gap-6">
               {['Strategy & scripting', 'Motion design', 'Voiceover (AI/human)', 'Sound design', 'Multi-platform exports', 'Revision rounds'].map((item, i) => (
-                <div key={i} className="flex items-center gap-3" data-testid={`included-feature-${i}`}>
-                  <div className="w-1 h-1 bg-black rounded-full" />
-                  <span className="text-black/60">{item}</span>
-                </div>
+                <motion.div 
+                  key={i} 
+                  className="flex items-center gap-3"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  data-testid={`included-feature-${i}`}
+                >
+                  <div className="w-2 h-2 bg-green-500 rounded-full" />
+                  <span className="text-white/60">{item}</span>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -158,21 +172,21 @@ const Pricing = () => {
       <section className="py-24 md:py-40">
         <div className="max-w-3xl mx-auto px-6 md:px-12">
           <div className="mb-16">
-            <p className="text-sm text-black/40 uppercase tracking-[0.2em] mb-4">FAQ</p>
-            <h2 className="text-4xl md:text-5xl font-medium tracking-tighter">
+            <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-4">FAQ</p>
+            <h2 className="text-4xl md:text-5xl font-medium tracking-tighter text-white">
               Common
               <br />
-              <span className="font-serif italic">questions</span>
+              <span className="text-green-400 font-serif italic">questions</span>
             </h2>
           </div>
           
           <Accordion type="single" collapsible className="w-full" data-testid="faq-accordion">
             {faqData.map((item, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="border-b border-black/10" data-testid={`faq-item-${i}`}>
-                <AccordionTrigger className="text-left text-lg font-medium py-6 hover:opacity-50">
+              <AccordionItem key={i} value={`item-${i}`} className="border-b border-green-900" data-testid={`faq-item-${i}`}>
+                <AccordionTrigger className="text-left text-lg font-medium py-6 text-white hover:text-green-400">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-black/50 pb-6">
+                <AccordionContent className="text-white/50 pb-6">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
@@ -182,14 +196,14 @@ const Pricing = () => {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-20 border-t border-black/10">
+      <section className="py-20 border-t border-green-900">
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 text-center">
-          <p className="text-black/50 mb-4">Not sure which package?</p>
+          <p className="text-white/50 mb-4">Not sure which package?</p>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             data-testid="pricing-bottom-cta"
-            className="inline-flex items-center gap-3 bg-black text-white px-8 py-4"
+            className="inline-flex items-center gap-3 bg-green-500 text-green-950 px-8 py-4 font-medium hover:bg-green-400 transition-colors"
           >
             Book a Free Call
             <ArrowUpRight className="w-4 h-4" />
