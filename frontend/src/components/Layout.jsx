@@ -1,17 +1,44 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Sun, Moon } from 'lucide-react';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
 import axios from 'axios';
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const MEETING_LINK = "https://meetings-na2.hubspot.com/claritylabs";
+
+// Theme Context
+export const ThemeContext = createContext();
+export const useTheme = () => useContext(ThemeContext);
+
+export const ThemeProvider = ({ children }) => {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('clarity-theme');
+    if (saved) setIsDark(saved === 'dark');
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = !isDark;
+    setIsDark(newTheme);
+    localStorage.setItem('clarity-theme', newTheme ? 'dark' : 'light');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState('');
   const location = useLocation();
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     const updateTime = () => {
@@ -35,13 +62,13 @@ export const Navbar = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm"
+        className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-sm ${isDark ? 'bg-gray-950/80' : 'bg-white/80'}`}
       >
         <div className="max-w-[1800px] mx-auto px-6 md:px-12 py-6">
           <div className="flex items-center justify-between">
             <Link to="/" className="relative z-50" data-testid="logo-link">
               <motion.span 
-                className="text-sm font-medium text-black uppercase tracking-[0.2em]"
+                className={`text-sm font-medium uppercase tracking-[0.2em] ${isDark ? 'text-white' : 'text-black'}`}
                 whileHover={{ opacity: 0.6 }}
               >
                 Clarity
@@ -49,10 +76,10 @@ export const Navbar = () => {
             </Link>
 
             <div className="hidden md:block">
-              <span className="text-xs text-black/40 font-mono">{time} LOCAL</span>
+              <span className={`text-xs font-mono ${isDark ? 'text-white/40' : 'text-black/40'}`}>{time} LOCAL</span>
             </div>
 
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
@@ -60,30 +87,51 @@ export const Navbar = () => {
                   data-testid={`nav-${link.name.toLowerCase()}`}
                   className={`text-sm transition-opacity ${
                     location.pathname === link.path 
-                      ? 'text-black' 
-                      : 'text-black/50 hover:text-black'
+                      ? isDark ? 'text-white' : 'text-black'
+                      : isDark ? 'text-white/50 hover:text-white' : 'text-black/50 hover:text-black'
                   }`}
                 >
                   {link.name}
                 </Link>
               ))}
-              <motion.button
+              
+              <button
+                onClick={toggleTheme}
+                data-testid="theme-toggle"
+                className={`p-2 rounded-full transition-colors ${isDark ? 'text-white/60 hover:text-white hover:bg-white/10' : 'text-black/60 hover:text-black hover:bg-black/5'}`}
+              >
+                {isDark ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
+
+              <motion.a
+                href={MEETING_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 data-testid="nav-book-call-btn"
                 className="text-sm bg-green-500 text-white px-6 py-3 font-medium hover:bg-green-600 transition-colors"
               >
                 Book a Call
-              </motion.button>
+              </motion.a>
             </div>
 
-            <button
-              data-testid="mobile-menu-btn"
-              className="md:hidden relative z-50 text-black"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <div className="flex items-center gap-4 md:hidden">
+              <button
+                onClick={toggleTheme}
+                data-testid="mobile-theme-toggle"
+                className={isDark ? 'text-white' : 'text-black'}
+              >
+                {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+              <button
+                data-testid="mobile-menu-btn"
+                className={`relative z-50 ${isDark ? 'text-white' : 'text-black'}`}
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                {isOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -95,7 +143,7 @@ export const Navbar = () => {
             animate={{ clipPath: 'circle(150% at calc(100% - 40px) 40px)' }}
             exit={{ clipPath: 'circle(0% at calc(100% - 40px) 40px)' }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 bg-white flex items-center justify-center md:hidden"
+            className={`fixed inset-0 z-40 flex items-center justify-center md:hidden ${isDark ? 'bg-gray-950' : 'bg-white'}`}
           >
             <div className="flex flex-col items-center gap-8">
               {navLinks.map((link, i) => (
@@ -109,12 +157,24 @@ export const Navbar = () => {
                     to={link.path}
                     data-testid={`mobile-nav-${link.name.toLowerCase()}`}
                     onClick={() => setIsOpen(false)}
-                    className="text-5xl font-medium text-black hover:text-green-500 transition-colors"
+                    className={`text-5xl font-medium hover:text-green-500 transition-colors ${isDark ? 'text-white' : 'text-black'}`}
                   >
                     {link.name}
                   </Link>
                 </motion.div>
               ))}
+              <motion.a
+                href={MEETING_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="mt-4 bg-green-500 text-white px-8 py-4 text-lg font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Book a Call
+              </motion.a>
             </div>
           </motion.div>
         )}
@@ -126,6 +186,7 @@ export const Navbar = () => {
 export const Footer = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { isDark } = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -146,13 +207,13 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-50 border-t border-black/10">
+    <footer className={`border-t ${isDark ? 'bg-gray-900 border-white/10' : 'bg-gray-50 border-black/10'}`}>
       <div className="max-w-[1800px] mx-auto px-6 md:px-12">
-        <div className="py-24 md:py-32 border-b border-black/10">
+        <div className={`py-24 md:py-32 border-b ${isDark ? 'border-white/10' : 'border-black/10'}`}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             <div>
-              <p className="text-sm text-green-600 uppercase tracking-[0.2em] mb-6">Newsletter</p>
-              <h3 className="text-3xl md:text-4xl font-medium text-black mb-8">
+              <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-6">Newsletter</p>
+              <h3 className={`text-3xl md:text-4xl font-medium mb-8 ${isDark ? 'text-white' : 'text-black'}`}>
                 Weekly insights on
                 <br />
                 video that converts.
@@ -164,13 +225,13 @@ export const Footer = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   data-testid="newsletter-email-input"
-                  className="flex-1 bg-transparent border-b border-black/20 rounded-none px-0 h-12 text-black placeholder:text-black/30 focus:border-green-500"
+                  className={`flex-1 bg-transparent border-b rounded-none px-0 h-12 focus:border-green-500 ${isDark ? 'border-white/20 text-white placeholder:text-white/30' : 'border-black/20 text-black placeholder:text-black/30'}`}
                 />
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   data-testid="newsletter-submit-btn"
-                  className="text-sm uppercase tracking-[0.1em] text-black hover:text-green-600 transition-colors disabled:opacity-30"
+                  className={`text-sm uppercase tracking-[0.1em] hover:text-green-500 transition-colors disabled:opacity-30 ${isDark ? 'text-white' : 'text-black'}`}
                 >
                   {isSubmitting ? '...' : 'Subscribe →'}
                 </button>
@@ -179,13 +240,13 @@ export const Footer = () => {
 
             <div className="grid grid-cols-2 gap-12 lg:justify-end">
               <div>
-                <p className="text-sm text-green-600 uppercase tracking-[0.2em] mb-6">Pages</p>
+                <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-6">Pages</p>
                 <ul className="space-y-4">
                   {['Home', 'Pricing', 'About'].map((link) => (
                     <li key={link}>
                       <Link 
                         to={link === 'Home' ? '/' : `/${link.toLowerCase()}`}
-                        className="text-black/60 hover:text-black transition-colors"
+                        className={`hover:text-green-500 transition-colors ${isDark ? 'text-white/60' : 'text-black/60'}`}
                         data-testid={`footer-${link.toLowerCase()}-link`}
                       >
                         {link}
@@ -195,13 +256,13 @@ export const Footer = () => {
                 </ul>
               </div>
               <div>
-                <p className="text-sm text-green-600 uppercase tracking-[0.2em] mb-6">Social</p>
+                <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-6">Social</p>
                 <ul className="space-y-4">
                   {['Twitter', 'LinkedIn', 'YouTube'].map((social) => (
                     <li key={social}>
                       <a 
                         href="#"
-                        className="text-black/60 hover:text-black transition-colors inline-flex items-center gap-2"
+                        className={`hover:text-green-500 transition-colors inline-flex items-center gap-2 ${isDark ? 'text-white/60' : 'text-black/60'}`}
                         data-testid={`social-${social.toLowerCase()}`}
                       >
                         {social}
@@ -216,8 +277,8 @@ export const Footer = () => {
         </div>
 
         <div className="py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-black/40">© {new Date().getFullYear()} Clarity Labs</p>
-          <p className="text-xs text-black/40">Premium Video for SaaS</p>
+          <p className={`text-xs ${isDark ? 'text-white/30' : 'text-black/40'}`}>© {new Date().getFullYear()} Clarity Labs</p>
+          <p className={`text-xs ${isDark ? 'text-white/30' : 'text-black/40'}`}>Premium Video for SaaS</p>
         </div>
       </div>
     </footer>
@@ -225,8 +286,10 @@ export const Footer = () => {
 };
 
 export const Layout = ({ children }) => {
+  const { isDark } = useTheme();
+  
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen transition-colors duration-300 ${isDark ? 'bg-gray-950' : 'bg-white'}`}>
       <Navbar />
       <main>{children}</main>
       <Footer />
