@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
-import { ArrowUpRight, ArrowDown, Play, X } from 'lucide-react';
+import { ArrowUpRight, ArrowDown } from 'lucide-react';
 import { Layout } from '../components/Layout';
 
 // ============ ANIMATED NUMBER ============
@@ -31,41 +31,6 @@ const AnimatedNumber = ({ value, suffix = '' }) => {
   return <span ref={ref}>{count}{suffix}</span>;
 };
 
-// ============ VIDEO MODAL ============
-const VideoModal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-  
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-green-950/95 backdrop-blur-sm flex items-center justify-center p-8"
-      onClick={onClose}
-    >
-      <button
-        onClick={onClose}
-        className="absolute top-8 right-8 text-white hover:text-green-400 transition-colors"
-        data-testid="close-video-modal"
-      >
-        <X size={32} />
-      </button>
-      <motion.div 
-        initial={{ scale: 0.9 }}
-        animate={{ scale: 1 }}
-        className="w-full max-w-6xl aspect-video bg-green-900/50 rounded-lg overflow-hidden"
-      >
-        <iframe
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
-          className="w-full h-full"
-          allow="autoplay"
-          allowFullScreen
-        />
-      </motion.div>
-    </motion.div>
-  );
-};
-
 // ============ HERO ============
 const HeroSection = () => {
   const ref = useRef(null);
@@ -75,22 +40,16 @@ const HeroSection = () => {
 
   return (
     <section ref={ref} className="relative min-h-screen flex flex-col justify-between pt-32 pb-12 overflow-hidden">
-      {/* Animated Background Elements */}
+      {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div 
-          className="absolute top-20 right-20 w-96 h-96 bg-green-500/10 rounded-full blur-3xl"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
+          className="absolute top-20 right-20 w-96 h-96 bg-green-500/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
           transition={{ duration: 8, repeat: Infinity }}
         />
         <motion.div 
-          className="absolute bottom-20 left-20 w-64 h-64 bg-green-400/10 rounded-full blur-3xl"
-          animate={{ 
-            scale: [1, 1.3, 1],
-            x: [0, 50, 0]
-          }}
+          className="absolute bottom-20 left-20 w-64 h-64 bg-green-400/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.3, 1], x: [0, 50, 0] }}
           transition={{ duration: 10, repeat: Infinity }}
         />
       </div>
@@ -106,13 +65,13 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mb-8"
         >
-          <div className="inline-flex items-center gap-3 bg-green-900/50 border border-green-800 px-4 py-2 rounded-full">
+          <div className="inline-flex items-center gap-3 border border-green-800 px-4 py-2 rounded-full">
             <motion.span 
               className="w-2 h-2 bg-green-400 rounded-full"
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <span className="text-sm text-green-300">Available for February</span>
+            <span className="text-sm text-white">Available for February</span>
           </div>
         </motion.div>
 
@@ -145,14 +104,14 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.8 }}
           className="mt-12 flex flex-col md:flex-row md:items-end justify-between gap-8"
         >
-          <p className="text-lg md:text-xl text-white/50 max-w-md">
+          <p className="text-lg md:text-xl text-white/60 max-w-md">
             We turn complex products into clear, conversion-ready videos. Built for launches, onboarding, and growth.
           </p>
           <motion.button
-            whileHover={{ scale: 1.02, backgroundColor: '#16a34a' }}
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             data-testid="hero-video-audit-btn"
-            className="group flex items-center gap-4 bg-green-500 text-green-950 px-8 py-5 text-lg font-medium"
+            className="group flex items-center gap-4 bg-green-500 text-white px-8 py-5 text-lg font-medium hover:bg-green-400 transition-colors"
           >
             Start a Project
             <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
@@ -167,63 +126,10 @@ const HeroSection = () => {
         transition={{ delay: 1.5 }}
         className="flex justify-center"
       >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <ArrowDown className="w-5 h-5 text-green-500/50" />
+        <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }}>
+          <ArrowDown className="w-5 h-5 text-white/30" />
         </motion.div>
       </motion.div>
-    </section>
-  );
-};
-
-// ============ SHOWREEL ============
-const ShowreelSection = () => {
-  const [showVideo, setShowVideo] = useState(false);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <section ref={ref} className="py-4 px-4 md:px-8">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-        className="relative aspect-[16/9] md:aspect-[21/9] bg-green-900 rounded-2xl overflow-hidden cursor-pointer group"
-        onClick={() => setShowVideo(true)}
-        data-testid="showreel-container"
-      >
-        {/* Video Production Image */}
-        <img 
-          src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=2000&q=80"
-          alt="Video production studio"
-          className="w-full h-full object-cover opacity-70 group-hover:scale-105 group-hover:opacity-80 transition-all duration-700"
-        />
-        
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-green-950/80 via-transparent to-transparent" />
-        
-        {/* Play Button */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-green-500 flex items-center justify-center glow-green"
-          >
-            <Play className="w-8 h-8 md:w-10 md:h-10 text-green-950 ml-1" fill="currentColor" />
-          </motion.div>
-        </div>
-
-        {/* Labels */}
-        <div className="absolute bottom-8 left-8">
-          <p className="text-white text-sm uppercase tracking-[0.2em]">Play Showreel</p>
-        </div>
-        <div className="absolute bottom-8 right-8">
-          <p className="text-white/50 text-sm">01:24</p>
-        </div>
-      </motion.div>
-
-      <VideoModal isOpen={showVideo} onClose={() => setShowVideo(false)} />
     </section>
   );
 };
@@ -241,7 +147,7 @@ const StatsSection = () => {
   ];
 
   return (
-    <section ref={ref} className="py-24 md:py-32 border-y border-green-900">
+    <section ref={ref} className="py-24 md:py-32 border-y border-green-900/50">
       <div className="max-w-[1800px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-8">
           {stats.map((stat, i) => (
@@ -252,7 +158,7 @@ const StatsSection = () => {
               transition={{ duration: 0.6, delay: i * 0.1 }}
               className="text-center md:text-left"
             >
-              <p className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tighter text-green-400">
+              <p className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tighter text-white">
                 <AnimatedNumber value={stat.value} suffix={stat.suffix} />
               </p>
               <p className="text-sm text-white/40 mt-2 uppercase tracking-[0.1em]">{stat.label}</p>
@@ -266,34 +172,10 @@ const StatsSection = () => {
 
 // ============ SERVICES ============
 const services = [
-  { 
-    num: '01', 
-    title: 'Launch Films', 
-    desc: 'Cinematic hero videos for your homepage. Make visitors understand in seconds.', 
-    time: '45-90s',
-    image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80'
-  },
-  { 
-    num: '02', 
-    title: 'Product Demos', 
-    desc: 'Clear, engaging walkthroughs that drive adoption and reduce support tickets.', 
-    time: '2-5min',
-    image: 'https://images.unsplash.com/photo-1551817958-20204d6ab212?auto=format&fit=crop&w=800&q=80'
-  },
-  { 
-    num: '03', 
-    title: 'Social Clips', 
-    desc: 'Vertical content built for LinkedIn, Twitter, and TikTok growth.', 
-    time: '15-60s',
-    image: 'https://images.unsplash.com/photo-1611162616475-46b635cb6868?auto=format&fit=crop&w=800&q=80'
-  },
-  { 
-    num: '04', 
-    title: 'Customer Stories', 
-    desc: 'Authentic testimonials that build trust and credibility.', 
-    time: '2-3min',
-    image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80'
-  },
+  { num: '01', title: 'Launch Films', desc: 'Cinematic hero videos for your homepage. Make visitors understand in seconds.', time: '45-90s' },
+  { num: '02', title: 'Product Demos', desc: 'Clear, engaging walkthroughs that drive adoption and reduce support tickets.', time: '2-5min' },
+  { num: '03', title: 'Social Clips', desc: 'Vertical content built for LinkedIn, Twitter, and TikTok growth.', time: '15-60s' },
+  { num: '04', title: 'Customer Stories', desc: 'Authentic testimonials that build trust and credibility.', time: '2-3min' },
 ];
 
 const ServicesSection = () => {
@@ -311,7 +193,7 @@ const ServicesSection = () => {
           className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20"
         >
           <div>
-            <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-4">Services</p>
+            <p className="text-sm text-green-400 uppercase tracking-[0.2em] mb-4">Services</p>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tighter text-white">
               What we
               <br />
@@ -324,49 +206,34 @@ const ServicesSection = () => {
         </motion.div>
 
         {/* Services List */}
-        <div className="border-t border-green-900">
+        <div className="border-t border-green-900/50">
           {services.map((service, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.1 * i }}
-              className="group border-b border-green-900 py-8 md:py-12 cursor-pointer relative overflow-hidden"
+              className="group border-b border-green-900/50 py-8 md:py-12 cursor-pointer relative overflow-hidden"
               onMouseEnter={() => setHoveredIndex(i)}
               onMouseLeave={() => setHoveredIndex(null)}
               data-testid={`service-card-${i}`}
             >
-              {/* Hover Background */}
               <motion.div 
-                className="absolute inset-0 bg-green-900/30"
+                className="absolute inset-0 bg-green-900/20"
                 initial={{ x: '-100%' }}
                 animate={{ x: hoveredIndex === i ? '0%' : '-100%' }}
                 transition={{ duration: 0.4 }}
               />
               
               <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12 relative z-10">
-                <span className="text-sm text-green-500 font-mono">{service.num}</span>
+                <span className="text-sm text-green-400 font-mono">{service.num}</span>
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-white flex-1 group-hover:translate-x-4 transition-transform">
                   {service.title}
                 </h3>
                 <p className="text-white/50 max-w-sm hidden md:block">{service.desc}</p>
-                <span className="text-sm text-green-500/50">{service.time}</span>
-                <ArrowUpRight className="w-6 h-6 text-green-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="text-sm text-white/30">{service.time}</span>
+                <ArrowUpRight className="w-6 h-6 text-green-400 opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-
-              {/* Floating Image on Hover */}
-              <motion.div
-                className="hidden lg:block absolute right-32 top-1/2 -translate-y-1/2 w-48 h-32 overflow-hidden rounded-lg pointer-events-none"
-                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-                animate={{ 
-                  opacity: hoveredIndex === i ? 1 : 0, 
-                  scale: hoveredIndex === i ? 1 : 0.8,
-                  rotate: hoveredIndex === i ? 0 : -5
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
-              </motion.div>
             </motion.div>
           ))}
         </div>
@@ -388,14 +255,14 @@ const ProcessSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-24 md:py-40 bg-green-900/20">
+    <section ref={ref} className="py-24 md:py-40 bg-[#0a1f12]">
       <div className="max-w-[1800px] mx-auto px-6 md:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="mb-20"
         >
-          <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-4">Process</p>
+          <p className="text-sm text-green-400 uppercase tracking-[0.2em] mb-4">Process</p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tighter text-white">
             Brief to launch
             <br />
@@ -414,81 +281,13 @@ const ProcessSection = () => {
               data-testid={`process-step-${i}`}
             >
               <motion.span 
-                className="text-7xl md:text-8xl font-medium text-green-900 group-hover:text-green-800 transition-colors"
+                className="text-7xl md:text-8xl font-medium text-green-900/50 group-hover:text-green-800/50 transition-colors"
                 whileHover={{ scale: 1.05 }}
               >
                 {step.num}
               </motion.span>
               <h3 className="text-xl font-medium text-white mt-4 mb-3">{step.title}</h3>
               <p className="text-white/40 text-sm leading-relaxed">{step.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// ============ FEATURED WORK ============
-const FeaturedWork = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  const works = [
-    { 
-      title: 'Metric Dashboard', 
-      category: 'Launch Film',
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'
-    },
-    { 
-      title: 'Baseline Analytics', 
-      category: 'Product Demo',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
-    },
-    { 
-      title: 'Nova CRM', 
-      category: 'Social Campaign',
-      image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80'
-    },
-  ];
-
-  return (
-    <section ref={ref} className="py-24 md:py-40">
-      <div className="max-w-[1800px] mx-auto px-6 md:px-12">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="flex justify-between items-end mb-16"
-        >
-          <div>
-            <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-4">Featured</p>
-            <h2 className="text-4xl md:text-5xl font-medium tracking-tighter text-white">
-              Recent
-              <span className="text-green-400 font-serif italic"> work</span>
-            </h2>
-          </div>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {works.map((work, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1 * i }}
-              className="group cursor-pointer"
-            >
-              <div className="aspect-[4/3] bg-green-900 rounded-lg overflow-hidden mb-4">
-                <motion.img 
-                  src={work.image}
-                  alt={work.title}
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.5 }}
-                />
-              </div>
-              <p className="text-xs text-green-500 uppercase tracking-[0.1em] mb-1">{work.category}</p>
-              <h3 className="text-xl font-medium text-white group-hover:text-green-400 transition-colors">{work.title}</h3>
             </motion.div>
           ))}
         </div>
@@ -509,14 +308,14 @@ const TestimonialsSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-24 md:py-40 border-t border-green-900">
+    <section ref={ref} className="py-24 md:py-40">
       <div className="max-w-[1800px] mx-auto px-6 md:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="mb-20"
         >
-          <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-4">Testimonials</p>
+          <p className="text-sm text-green-400 uppercase tracking-[0.2em] mb-4">Testimonials</p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tighter text-white">
             Founders
             <br />
@@ -531,10 +330,10 @@ const TestimonialsSection = () => {
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.1 * i }}
-              className="border border-green-900 p-8 md:p-10 group hover:bg-green-900/30 hover:border-green-800 transition-all duration-500"
+              className="border border-green-900/50 p-8 md:p-10 group hover:bg-green-900/20 hover:border-green-800/50 transition-all duration-500"
               data-testid={`testimonial-${i}`}
             >
-              <p className="text-sm text-green-500 mb-6">{t.metric}</p>
+              <p className="text-sm text-green-400 mb-6">{t.metric}</p>
               <p className="text-xl md:text-2xl font-medium leading-snug text-white mb-8">"{t.quote}"</p>
               <div>
                 <p className="font-medium text-white">{t.author}</p>
@@ -553,12 +352,12 @@ const ClientsMarquee = () => {
   const clients = ['AltEzza', 'hbm', 'SpatiumX', 'Classster', 'CustomGuide', 'Vemotion', 'Kitaboo', 'DSharp'];
 
   return (
-    <section className="py-12 border-y border-green-900 overflow-hidden">
+    <section className="py-12 border-y border-green-900/50 overflow-hidden">
       <div className="flex animate-marquee">
         {[...clients, ...clients].map((client, i) => (
           <span 
             key={i}
-            className="mx-12 text-2xl md:text-3xl font-medium text-green-900 hover:text-green-700 transition-colors whitespace-nowrap"
+            className="mx-12 text-2xl md:text-3xl font-medium text-white/20 hover:text-white/40 transition-colors whitespace-nowrap"
             data-testid={i < clients.length ? `client-logo-${client.toLowerCase()}` : undefined}
           >
             {client}
@@ -576,9 +375,8 @@ const FinalCTA = () => {
 
   return (
     <section ref={ref} className="py-32 md:py-48 relative overflow-hidden">
-      {/* Animated Background */}
       <motion.div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-500/10 rounded-full blur-3xl"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-green-500/5 rounded-full blur-3xl"
         animate={{ scale: [1, 1.2, 1] }}
         transition={{ duration: 8, repeat: Infinity }}
       />
@@ -588,17 +386,17 @@ const FinalCTA = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
         >
-          <p className="text-sm text-green-500 uppercase tracking-[0.2em] mb-8">Start a project</p>
+          <p className="text-sm text-green-400 uppercase tracking-[0.2em] mb-8">Start a project</p>
           <h2 className="text-5xl md:text-6xl lg:text-8xl font-medium tracking-tighter text-white mb-8">
             Let's make
             <br />
             <span className="text-green-400 font-serif italic">something great</span>
           </h2>
           <motion.button
-            whileHover={{ scale: 1.02, backgroundColor: '#16a34a' }}
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             data-testid="final-cta-btn"
-            className="group inline-flex items-center gap-4 bg-green-500 text-green-950 px-12 py-6 text-lg font-medium"
+            className="group inline-flex items-center gap-4 bg-green-500 text-white px-12 py-6 text-lg font-medium hover:bg-green-400 transition-colors"
           >
             Book a Call
             <ArrowUpRight className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
@@ -615,11 +413,9 @@ const Home = () => {
   return (
     <Layout>
       <HeroSection />
-      <ShowreelSection />
       <StatsSection />
       <ServicesSection />
       <ProcessSection />
-      <FeaturedWork />
       <ClientsMarquee />
       <TestimonialsSection />
       <FinalCTA />
